@@ -1,33 +1,19 @@
-# Final 301 Project
+# Vision
 
-## Team Name
-Team Pickle Juice
+An app that provides meal option to a user based upon profile information
 
-## Team Members
-
-- Adam Owada
-- Bhagirath Bhatt
-- Brendon Hampton
-- Chuck Li
-- Richard Whitehead
-
-## Project Idea
- 
-### Food and Budgeting App
- 
+## What will your MVP functionality be?
 -	As the user I want to create a profile with my name, daily calorie intake, and food allergies.
 -	As a user, I want to view different meal options based on my profile information
 
-	Stretch goals
+## What are your stretch goals?
 -	As a user, I want to be able to add ingredients to my pantry
 -	As the user I want to know an estimated budget for ingredients I need to buy for a meal.
 -	Allow users to prepare a meal with what they have in their pantry.
 
-## Wireframes
+## Functional Requirements
 
-![Home Page](img/wireframes/homepage.png)
-
-![About US](img/wireframes/aboutus.png)
-
-![Login Page](img/wireframes/loginpage.png)
+- A new user can create an account 
+- A returning user can login to an account
+- A user can search for meal option after logging in
 
