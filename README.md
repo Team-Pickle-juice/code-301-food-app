@@ -23,6 +23,10 @@ Team Pickle Juice
 -	As the user I want to know an estimated budget for ingredients I need to buy for a meal.
 -	Allow users to prepare a meal with what they have in their pantry.
 
+# Navigation
+
+
+
 ## Wireframes
 
 ![Home Page](img/wireframes/homepage.png)
@@ -30,4 +34,6 @@ Team Pickle Juice
 ![About US](img/wireframes/aboutus.png)
 
 ![Login Page](img/wireframes/loginpage.png)
+
+
 
