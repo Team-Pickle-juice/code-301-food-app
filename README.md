@@ -24,6 +24,7 @@ Team Pickle Juice
 -	Allow users to prepare a meal with what they have in their pantry.
 
 # Navigation
+[Wireframes](##Wireframes)
 
 
 
@@ -34,6 +35,31 @@ Team Pickle Juice
 ![About US](img/wireframes/aboutus.png)
 
 ![Login Page](img/wireframes/loginpage.png)
+
+---------------------------------------------
+
+## 5/11/2020
+
+### ToDo's
+
+#### Project Manager
+	-Brendon
+
+Create Index.ejs -Bhagirath Bhatt
+
+Create Server.js - Chuck Li
+
+Create CSS files, Pages folder for EJS, Partials folders - Richard Whitehead
+
+Create Data folder with Schema.sql, Wireframe images
+
+----------------------------------------------
+
+
+### Database name
+	- food_app
+### table name
+	- profiles
 
 
 
