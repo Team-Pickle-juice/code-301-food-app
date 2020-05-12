@@ -1,0 +1,29 @@
+{
+  "name": "code-301-food-app",
+  "version": "1.0.0",
+  "description": "## Team Name Team Pickle Juice",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Team-Pickle-juice/code-301-food-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Team-Pickle-juice/code-301-food-app/issues"
+  },
+  "homepage": "https://github.com/Team-Pickle-juice/code-301-food-app#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "method-override": "^3.0.0",
+    "pg": "^8.1.0",
+    "superagent": "^5.2.2"
+  }
+}
