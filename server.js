@@ -18,7 +18,7 @@ app.use(express.urlencoded({extended:true}));
 // Allows delete and put methods
 app.use(methodOverride('_method'));
 
-app.use(express.static('./pages'));
+app.use(express.static('./public'));
 
 
 //ROUTES ---- PLEASE ADD ALL ROUTES IN THIS SECTION ----
@@ -31,11 +31,12 @@ function handleHomepage( request, response ) {
 
 // 404 Error
 app.use('*', (request, response) => {
-  response.status(404).send(`Can't find ${request.path}`);
+  console.log(request);
+  response.status(404).send(`Can't find ${request.Url.path}`);
 });
 
 app.use( (err,req,response,next) => {
-  response.status(500).render('pages/500', {err});
+  response.status(500).render('500', {err});
 });
 
 //Startup Server
