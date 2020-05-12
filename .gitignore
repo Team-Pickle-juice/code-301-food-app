@@ -170,6 +170,9 @@ cmake-build-*/
 # IntelliJ
 out/
 
+#.lockjson
+package-lock.json
+
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
