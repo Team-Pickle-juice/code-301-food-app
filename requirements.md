@@ -17,3 +17,6 @@ An app that provides meal option to a user based upon profile information
 - A returning user can login to an account
 - A user can search for meal option after logging in
 
+## Data Flow
+
+[Data Flow Chart](https://mydraft.cc/bqstvs51ifn2ps5uat4g)
