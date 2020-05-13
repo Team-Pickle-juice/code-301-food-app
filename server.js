@@ -1,10 +1,10 @@
-'use strict'
+'use strict';
 
 require('dotenv').config();
 
 const express = require('express');
 const superagent = require('superagent');
-const pg = require('pg')
+const pg = require('pg');
 const cors = require('cors');
 const methodOverride = require('method-override');
 
@@ -12,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const client = new pg.Client(process.env.DATABASE_URL);
 
-// Brings in EJS 
+// Brings in EJS
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended:true}));
 // Allows delete and put methods
@@ -36,17 +36,17 @@ function handleLoginPage( request, response ) {
   let SQL = 'SELECT * FROM food_app WHERE username = $1';
   let VALUES = [request.query.username];
 
-  client.query(SQL, VALUES) 
-    .then( results  => {
+  client.query(SQL, VALUES)
+    .then( results => {
       if (results.rows === 0) {
         response.status(200).render('pages/nouser', {username:request.query.username});
-      } else {      
+      } else {
         response.status(200).render('pages/profile', {profiles:results.rows[0]});
       }
-  })
-  .catch(error => {
-    throw new Error(error);
-  });
+    })
+    .catch(error => {
+      throw new Error(error.message);
+    });
 }
 
 
@@ -54,11 +54,11 @@ function handleDelete( request, response) {
   let SQL = 'DELETE FROM food_app WHERE id = $1';
   let VALUES = [request.params.id];
   client.query(SQL, VALUES)
-    .then( results => {
+    .then(results => {
       response.status(200).redirect('/');
     });
 }
-  
+
 
 // 404 Error
 app.use('*', (request, response) => {
