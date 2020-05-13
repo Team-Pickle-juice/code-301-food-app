@@ -55,6 +55,18 @@ Create Data folder with Schema.sql, Wireframe images
 
 ----------------------------------------------
 
+## 5/12/2020
+
+### Project Manager
+- Rich Whitehead
+
+#### Priorities of Work
+
+Create profile.ejs and register.ejs file in pages folder - Brendon and Adam
+
+Create profile results in the database to allow users to add, update and delete profiles - Bhagirath and Chuck
+
+----------------------------------------------
 
 ### Database name
 	- food_app
