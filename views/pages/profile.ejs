@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('../partials/head.ejs') %>
     <title>Profiles</title>
 </head>
 <body>
@@ -14,7 +13,7 @@
         <ul>
             <% profiles.forEach(profile => { %>
                 <li class="card">
-                    <form action="/delete/<%= profile.id %>" method="POST" id="">
+                    <form action="/delete/<%= profile.id %>?_method=delete" method="POST" id="">
                     <input type="hidden" name="id" value="<%= profile.id %>">
                         <h2>
                             <%= profile.username %>
