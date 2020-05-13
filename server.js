@@ -23,8 +23,10 @@ app.use(express.static('./public'));
 
 //ROUTES ---- PLEASE ADD ALL ROUTES IN THIS SECTION ----
 app.get('/', handleHomepage);
-app.get('/username', handleLoginPage);
+app.post('/username', handleLoginPage);
 app.delete('/delete/:id', handleDelete);
+app.post('/register-user', registerUser);
+app.get('/register', loadRegisterPage);
 
 
 
@@ -33,14 +35,19 @@ function handleHomepage( request, response ) {
 }
 
 function handleLoginPage( request, response ) {
-  let SQL = 'SELECT * FROM food_app WHERE username = $1';
-  let VALUES = [request.query.username];
+  let SQL = 'SELECT * FROM profiles WHERE username = $1';
+  let VALUES = [request.body.username];
 
   client.query(SQL, VALUES)
     .then( results => {
       if (results.rows === 0) {
         response.status(200).render('pages/nouser', {username:request.query.username});
       } else {
+  client.query(SQL, VALUES) 
+    .then( results  => {
+     if (results.rows.length === 0) {
+        response.status(200).render('pages/nouser');
+      } else {      
         response.status(200).render('pages/profile', {profiles:results.rows[0]});
       }
     })
@@ -51,7 +58,7 @@ function handleLoginPage( request, response ) {
 
 
 function handleDelete( request, response) {
-  let SQL = 'DELETE FROM food_app WHERE id = $1';
+  let SQL = 'DELETE FROM profiles WHERE id = $1';
   let VALUES = [request.params.id];
   client.query(SQL, VALUES)
     .then(results => {
@@ -60,9 +67,28 @@ function handleDelete( request, response) {
 }
 
 
+function registerUser(request, response) {
+  let SQL = `
+    INSERT INTO profiles (username, calories, allergies) 
+    VALUES ($1, $2, $3)`; 
+  let VALUES = [
+    request.body.username,
+    request.body.calories,
+    request.body.allergies
+  ];
+  client.query(SQL, VALUES)
+  .then(results => {
+    response.status(200).redirect('/');
+  })
+}
+
+function loadRegisterPage(request,response) {
+  response.status(200).render('pages/register');
+}
+
 // 404 Error
 app.use('*', (request, response) => {
-  console.log(request);
+  // console.log(request);
   response.status(404).send(`Can't find ${request.Url.path}`);
 });
 
