@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/reset.css">
-    <link rel="stylesheet" href="css/style.css">
+    <%- include('../partials/head.ejs') %>
     <title>Proof of Pickle Juice</title>
 </head>
 <body>
@@ -13,9 +10,9 @@
     </header>
     <main>
         <section>
-            <Input placeholder="Username"></Input>
-            <form action="/username" method="post">
-            <button>Login</button>
+            <form action="/username" method="GET">
+                <Input placeholder="Username"></Input>
+                <button>Login</button>
             </form>
             <a href="/register">Register New User</a>
         </section>
