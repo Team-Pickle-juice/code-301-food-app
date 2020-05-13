@@ -24,6 +24,7 @@ app.use(express.static('./public'));
 //ROUTES ---- PLEASE ADD ALL ROUTES IN THIS SECTION ----
 app.get('/', handleHomepage);
 app.get('/username', handleLoginPage);
+app.delete('/delete/:id', handleDelete);
 
 
 
@@ -46,6 +47,16 @@ function handleLoginPage( request, response ) {
   .catch(error => {
     throw new Error(error);
   });
+}
+
+
+function handleDelete( request, response) {
+  let SQL = 'DELETE FROM food_app WHERE id = $1';
+  let VALUES = [request.params.id];
+  client.query(SQL, VALUES)
+    .then( results => {
+      response.status(200).redirect('/');
+    });
 }
   
 
