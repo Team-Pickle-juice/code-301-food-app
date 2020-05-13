@@ -23,10 +23,15 @@ app.use(express.static('./public'));
 
 //ROUTES ---- PLEASE ADD ALL ROUTES IN THIS SECTION ----
 app.get('/', handleHomepage);
+app.post('profile', handleProfilePage);
 
 
 function handleHomepage( request, response ) {
-  response.status(200).send('Team Pickle Juice Rocks');
+  response.status(200).render('pages/index');
+}
+
+function handleProfilePage( request, response ) {
+  response.status(200).send('This will be the Profile Page');
 }
 
 // 404 Error
