@@ -11,26 +11,26 @@
     <main>
         <h1>List of Profiles</h1>
         <ul>
-            <% profiles.forEach(profile => { %>
-                <li class="card">
-                    <form action="/delete/<%= profile.id %>?_method=delete" method="POST" id="">
-                    <input type="hidden" name="id" value="<%= profile.id %>">
-                        <h2>
-                            <%= profile.username %>
-                        </h2>
-                        <input type="hidden" name="username" value="<%= profile.username %>" id="">
-                        <h2>
-                            <%= profile.calories %>
-                        </h2>
-                        <input type="hidden" name="calories" value="<%= profile.calories %>" id="">
-                        <h2>
-                            <%= profile.allergies %>
-                        </h2>
-                    <input type="hidden" name="allergies" value="<%= profile.allergies %>" id="">
-                    <button type="submit">Delete Profile</button>
-                    </form>
-                </li>
-            <% }) %>
+            <li class="card">
+                <h2>
+                    <%= profile.username %>
+                </h2>
+                <h2>
+                    <%= profile.calories %>
+                </h2>
+                <h2>
+                    <%= profile.allergies %>
+                </h2>
+            </li>
+        <form action="/recipe-search" method="GET" id="">
+            <input type="text" name="searchWord" placeholder="Enter Meal Name">
+            <input type="text" name="maxCalories" placeholder="Max Calories Per Meal">
+            <button type="submit">Search Recipes</button>
+        </form>
+
+        <form action="/delete/<%= profile.id %>?_method=delete" method="POST" id="">
+            <button type="submit">Delete Profile</button>
+        </form>
         </ul>
     </main>
     <footer>
