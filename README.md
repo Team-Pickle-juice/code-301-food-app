@@ -73,5 +73,40 @@ Create profile results in the database to allow users to add, update and delete 
 ### table name
 	- profiles
 
+## 5/13/2020
+
+### Project Manager
+- Bhagirath Bhatt
+
+The goal for today was to fix the user profile bug and get it to render
+For MVP – we aim to get a deployed working app. To do a search and and get results. 
+
+### Brandon and Chuck – pair programming working on the.
+#### Render profile
+* After registering a new user, the login button is not checking through database, verifying the user has been added and displaying all the users on a profiles page.
+* Check the if statement for inside the login function on server.js.
+* Check routes inside server.js.
+* check routes inside index.ejs
+* Call appropriate help if 15 minutes has passed
+* Create Form
+* Create a CSS folder
+* Add displayed image to index.ejs in mobile view per mobile wireframe diagram.
+
+### Adam and Richard – pair programming working on API keys.
+
+* To be able to search recipes that gives calorie count
+* Create ejs page for searching recipes
+* Add form wit GET to search through the API spoonacular
+* Worked on search recipes profile
+
+#### Issues
+* Took a lot of time on correcting user profile feature.
+* An accidental merge to the master cased a delay.
+
+#### Wins 
+* Resolved issues and we were able to move forward.
+* 
+
+
 
 
