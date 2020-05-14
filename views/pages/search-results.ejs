@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Choose from Your Recipe List</h1>
+    <% recipes.forEach (recipe => { %>
+        <section>
+            <h3>Recipe Name</h3>
+            <p><%= recipe.recipeName %></p>
+            <h3>Calories</h3>
+            <p><%= recipe.calories %></p>
+
+            <form action="/add-recipe" method="POST">
+                <input type="hidden" name="recipename">
+                <input type="hidden" name="calories"> 
+                <button>Add to My Meal Plan</button>
+            </form> 
+            
+        </section>
+   <% }) %>
+</body>
+</html>
