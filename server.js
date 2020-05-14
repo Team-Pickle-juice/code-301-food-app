@@ -40,9 +40,10 @@ function handleLoginPage( request, response ) {
 
   client.query(SQL, VALUES) 
     .then( results  => {
-      if (results.rows.length === 0) {
+      if (results.rows.rowCount === 0) {
         response.status(200).render('pages/nouser');
       } else {      
+        console.log('ok');
         response.status(200).render('pages/profile', {profiles:results.rows[0]});
       }
     })
