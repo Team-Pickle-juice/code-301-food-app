@@ -37,7 +37,7 @@ function handleHomepage( request, response ) {
 function handleLoginPage( request, response ) {
   let SQL = 'SELECT * FROM profiles WHERE username = $1';
   let VALUES = [request.body.username];
-
+  console.log(request.body);
   client.query(SQL, VALUES) 
     .then( results  => {
       if (results.rows.rowCount === 0) {
