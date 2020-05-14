@@ -15,18 +15,21 @@
                 <h2>
                     <%= profile.username %>
                 </h2>
-                <input type="hidden" name="username" value="<%= profile.username %>" id="">
                 <h2>
                     <%= profile.calories %>
                 </h2>
-                <input type="hidden" name="calories" value="<%= profile.calories %>" id="">
                 <h2>
                     <%= profile.allergies %>
                 </h2>
-                <input type="hidden" name="allergies" value="<%= profile.allergies %>" id="">
             </li>
+        <form action="/recipe-search" method="GET" id="">
+            <input type="text" name="searchWord" placeholder="Enter Meal Name">
+            <input type="text" name="maxCalories" placeholder="Max Calories Per Meal">
+            <button type="submit">Search Recipes</button>
+        </form>
+
         <form action="/delete/<%= profile.id %>?_method=delete" method="POST" id="">
-        <button type="submit">Delete Profile</button>
+            <button type="submit">Delete Profile</button>
         </form>
         </ul>
     </main>
