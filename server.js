@@ -42,7 +42,9 @@ function recipeSearch(request, response) {
   superagent.get(url)
     .query(queryStringParams)
     .then(data => {
-      let recipes = data.results.map(recipe => new Recipe(recipe));
+      // console.log('results are', data.body);
+      let recipes = data.body.results.map(recipe => new Recipe(recipe));
+      console.log(recipes);
       response.status(200).render('pages/search-results', {recipes});
     });
 }
