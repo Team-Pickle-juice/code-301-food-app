@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head.ejs') %>
+    <title>Register Page</title>
+</head>
+<body>
+    <h1>Create New User</h1>
+    <form action="/register-user" method="POST">
+    <div>
+        <input type="text" name="username" id="" class="textInput" placeholder="Username">
+    </div>
+    <div>
+        <input type="text" name="calories" id="" class="textInput" placeholder="Calories Per Day">
+    </div>
+    <div>
+        <input type="text" name="allergies" id="" class="textInput" placeholder="Allergy One">
+    </div>
+    <!-- <button>Add Allergy</button> -->
+    <!-- Add Jquery Functionality to add more allergies -->
+    <button type="submit" id="saveButton">Save</button>
+    </form>
+    
+
+</body>
+</html>

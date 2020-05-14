@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head.ejs') %>
+    <title>Profiles</title>
+</head>
+<body>
+    <header>
+
+    </header>
+    <main>
+        <h1>List of Profiles</h1>
+        <ul>
+            <%b profiles.forEach(profile => { %>
+                <li class="card">
+                    <form action="/delete/<%= profile.id %>?_method=delete" method="POST" id="">
+                    <input type="hidden" name="id" value="<%= profile.id %>">
+                        <h2>
+                            <%= profile.username %>
+                        </h2>
+                        <input type="hidden" name="username" value="<%= profile.username %>" id="">
+                        <h2>
+                            <%= profile.calories %>
+                        </h2>
+                        <input type="hidden" name="calories" value="<%= profile.calories %>" id="">
+                        <h2>
+                            <%= profile.allergies %>
+                        </h2>
+                    <input type="hidden" name="allergies" value="<%= profile.allergies %>" id="">
+                    <button type="submit">Delete Profile</button>
+                    </form>
+                </li>
+            <% }) %>
+        </ul>
+    </main>
+    <footer>
+
+    </footer>
+</body>
+</html>
