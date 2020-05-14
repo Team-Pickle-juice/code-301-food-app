@@ -15,6 +15,7 @@ const client = new pg.Client(process.env.DATABASE_URL);
 // Brings in EJS
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended:true}));
+
 // Allows delete and put methods
 app.use(methodOverride('_method'));
 
@@ -31,7 +32,7 @@ app.get('/recipe-search', recipeSearch);
 
 
 function recipeSearch(request, response) {
-  const searchWord = request.query.searchWord.toLowerCase(); //we need to coordinate this varible with the frontend team
+  const searchWord = request.query.searchWord.toLowerCase(); // we need to coordinate this varible with the frontend team
   const calories = request.query.maxCalories; // coordinate this varible with the frontend team
   const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.FOOD_API}`;
   const queryStringParams = {
@@ -41,8 +42,13 @@ function recipeSearch(request, response) {
   superagent.get(url)
     .query(queryStringParams)
     .then(data => {
-
-    })
+      let recipes = data.results.map(recipe => new Recipe(recipe));
+      response.status(200).render('pages/search-results', {recipes});
+    });
+}
+function Recipe(data){
+  this.recipeName = data.title;
+  this.calories = data.nutrition[0].amount;
 }
 function handleHomepage(request, response ) {
   response.status(200).render('pages/index');
@@ -54,7 +60,6 @@ function handleLoginPage(request, response ) {
 
   client.query(SQL, VALUES)
     .then( results => {
-
       if (results.rowCount === 0) {
         response.status(200).render('pages/nouser');
       } else {
