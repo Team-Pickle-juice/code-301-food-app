@@ -52,10 +52,6 @@ function handleLoginPage(request, response ) {
   let SQL = 'SELECT * FROM profiles WHERE username = $1';
   let VALUES = [request.body.username];
 
-  console.log(request.body);
-  client.query(SQL, VALUES) 
-    .then( results  => {
-
   client.query(SQL, VALUES)
     .then( results => {
 
