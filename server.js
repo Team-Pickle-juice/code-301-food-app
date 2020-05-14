@@ -38,14 +38,9 @@ function handleLoginPage( request, response ) {
   let SQL = 'SELECT * FROM profiles WHERE username = $1';
   let VALUES = [request.body.username];
 
-  client.query(SQL, VALUES)
-    .then( results => {
-      if (results.rows === 0) {
-        response.status(200).render('pages/nouser', {username:request.query.username});
-      } else {
   client.query(SQL, VALUES) 
     .then( results  => {
-     if (results.rows.length === 0) {
+      if (results.rows.length === 0) {
         response.status(200).render('pages/nouser');
       } else {      
         response.status(200).render('pages/profile', {profiles:results.rows[0]});
@@ -106,4 +101,4 @@ client.connect()
   .then( () => {
     startServer(PORT);
   })
-  .catch(err => console.error(err));
+  .catch(err => console.error(err.message));
