@@ -14,12 +14,15 @@
             <p><%= recipe.recipeName %></p>
             <h3>Calories</h3>
             <p><%= recipe.calories %></p>
+            <section class="recipeDetails">
 
+            </section>
 
             <form action="/recipe-details" method="POST">
                 <input type="hidden" name="recipename">
                 <input type="hidden" name="calories"> 
-                <button>View Recipe Information</button>
+                <input type="hidden" name="recipeID" class="recipeID" value="<%= recipe.recipe_id %>">
+                <button class="recipeInfo">View Recipe Information</button>
             </form> 
             
         </section>
