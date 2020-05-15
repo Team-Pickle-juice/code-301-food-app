@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="x-tmpl-mustache" id="recipeInfo-template">
+        <ul>
+          <li>ingredients{{recipe.ingredients}}</li>
+          <li>instructions{{recipe.instructions}}</li>
+          <li>price{{recipe.price}}</li>
+        </ul>
+      </script>
     <title>Search Results</title>
 </head>
 <body>
@@ -18,7 +25,7 @@
 
             </section>
 
-            <form action="/recipe-details" method="POST">
+            <form class="recipeForm">
                 <input type="hidden" name="recipename">
                 <input type="hidden" name="calories">
                 <input type="hidden" name="recipeID" class="recipeID" value="<%= recipe.recipe_id %>">
@@ -27,5 +34,9 @@
             
         </section>
    <% }) %>
+   <script src="https://unpkg.com/mustache@latest"></script>
+   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+   <script src="/scripts/app.js"></script>
 </body>
+
 </html>
