@@ -51,6 +51,7 @@ function recipeSearch(request, response) {
 function Recipe(data){
   this.recipeName = data.title;
   this.calories = data.nutrition[0].amount;
+  this.image = data.image;
 }
 function handleHomepage(request, response ) {
   response.status(200).render('pages/index');
