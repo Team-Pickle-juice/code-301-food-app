@@ -9,7 +9,7 @@
     <h1>Choose from Your Recipe List</h1>
     <% recipes.forEach (recipe => { %>
         <section>
-            <img src="<%= recipe.image %>"
+            <img src="<%= recipe.image %>"/>
             <h3>Recipe Name</h3>
             <p><%= recipe.recipeName %></p>
             <h3>Calories</h3>
@@ -20,7 +20,7 @@
 
             <form action="/recipe-details" method="POST">
                 <input type="hidden" name="recipename">
-                <input type="hidden" name="calories"> 
+                <input type="hidden" name="calories">
                 <input type="hidden" name="recipeID" class="recipeID" value="<%= recipe.recipe_id %>">
                 <button class="recipeInfo">View Recipe Information</button>
             </form> 
