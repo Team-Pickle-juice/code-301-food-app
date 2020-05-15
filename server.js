@@ -29,8 +29,9 @@ app.delete('/delete/:id', handleDelete);
 app.post('/register-user', registerUser);
 app.get('/register', loadRegisterPage);
 app.get('/recipe-search', recipeSearch);
+app.post('/add-recipe', addRecipe);
 
-
+// recipe API function
 function recipeSearch(request, response) {
   const searchWord = request.query.searchWord.toLowerCase(); // we need to coordinate this varible with the frontend team
   const calories = request.query.maxCalories; // coordinate this varible with the frontend team
@@ -48,12 +49,36 @@ function recipeSearch(request, response) {
       response.status(200).render('pages/search-results', {recipes});
     });
 }
+// recipe constructor 
 function Recipe(data){
   this.recipeName = data.title;
   this.calories = data.nutrition[0].amount;
   this.image = data.image;
   this.recipe_id = data.id;
 }
+
+// add recipe function
+function addRecipe(request, response) {
+  let SQL = `INSERT INTO meal_plan (username, recipe_id, img_url, ingredients, instructions, price)
+  VALUES ($1, $2, $3, $4, $5, $6)`;
+  let VALUES = [
+    request.body.username,
+    request.body.recipe_id,
+    request.body.img_url,
+    request.body.ingredients,
+    request.body.instructions,
+    request.body.price
+  ];
+  client.query(SQL, VALUES)
+    .then( () => {
+      response.status(200).redirect('pages/saved-meals');
+    })
+    .catch( error => {
+      console.error(error.message);
+    });
+}
+
+// handler functions
 function handleHomepage(request, response ) {
   response.status(200).render('pages/index');
 }
@@ -86,7 +111,7 @@ function handleDelete( request, response) {
     });
 }
 
-
+// register user
 function registerUser(request, response) {
   let SQL = `
     INSERT INTO profiles (username, calories, allergies) 
