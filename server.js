@@ -14,7 +14,7 @@ const client = new pg.Client(process.env.DATABASE_URL);
 
 // Brings in EJS
 app.set('view engine', 'ejs');
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({extended:true,}));
 
 // Allows delete and put methods
 app.use(methodOverride('_method'));
@@ -29,8 +29,10 @@ app.delete('/delete/:id', handleDelete);
 app.post('/register-user', registerUser);
 app.get('/register', loadRegisterPage);
 app.get('/recipe-search', recipeSearch);
+app.post('/add-recipe', addRecipe);
+app.get('/saved-meals', savedMealsHandler);
 
-
+// recipe API function
 function recipeSearch(request, response) {
   const searchWord = request.query.searchWord.toLowerCase(); // we need to coordinate this varible with the frontend team
   const calories = request.query.maxCalories; // coordinate this varible with the frontend team
@@ -45,13 +47,51 @@ function recipeSearch(request, response) {
       // console.log('results are', data.body);
       let recipes = data.body.results.map(recipe => new Recipe(recipe));
       console.log(recipes);
-      response.status(200).render('pages/search-results', {recipes});
+      response.status(200).render('pages/search-results', {recipes,});
     });
 }
+// recipe constructor
 function Recipe(data){
   this.recipeName = data.title;
   this.calories = data.nutrition[0].amount;
+  this.image = data.image;
+  this.recipe_id = data.id;
 }
+
+// add recipe function
+function addRecipe(request, response) {
+  let SQL = `INSERT INTO meal_plan (username, recipe_id, img_url, ingredients, instructions, price)
+  VALUES ($1, $2, $3, $4, $5, $6)`;
+  let VALUES = [
+    request.body.username,
+    request.body.recipe_id,
+    request.body.img_url,
+    request.body.ingredients,
+    request.body.instructions,
+    request.body.price
+  ];
+  client.query(SQL, VALUES)
+    .then( () => {
+      response.status(200).redirect('pages/saved-meals');
+    })
+    .catch( error => {
+      console.error(error.message);
+    });
+}
+
+// handler functions
+
+function savedMealsHandler (request, response) {
+  let SQL = `SELECT * FROM meal_plan`;
+  client.query(SQL)
+    .then (results => {
+      response.status(200).render('pages/saved-meals', {meal_plan:results.rows,});
+    })
+    .catch ( error => {
+      throw new Error(error);
+    });
+}
+
 function handleHomepage(request, response ) {
   response.status(200).render('pages/index');
 }
@@ -66,7 +106,7 @@ function handleLoginPage(request, response ) {
         response.status(200).render('pages/nouser');
       } else {
         console.log('ok');
-        response.status(200).render('pages/profile', {profile:results.rows[0]});
+        response.status(200).render('pages/profile', {profile:results.rows[0],});
       }
     })
     .catch(error => {
@@ -84,7 +124,7 @@ function handleDelete( request, response) {
     });
 }
 
-
+// register user
 function registerUser(request, response) {
   let SQL = `
     INSERT INTO profiles (username, calories, allergies) 
@@ -111,7 +151,7 @@ app.use('*', (request, response) => {
 });
 
 app.use( (err,req,response,next) => {
-  response.status(500).render('pages/500', {err});
+  response.status(500).render('pages/500', {err,});
 });
 
 //Startup Server
