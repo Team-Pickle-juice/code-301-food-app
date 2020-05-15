@@ -15,6 +15,7 @@ const client = new pg.Client(process.env.DATABASE_URL);
 // Brings in EJS
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended:true}));
+
 // Allows delete and put methods
 app.use(methodOverride('_method'));
 
@@ -27,23 +28,46 @@ app.post('/username', handleLoginPage);
 app.delete('/delete/:id', handleDelete);
 app.post('/register-user', registerUser);
 app.get('/register', loadRegisterPage);
+app.get('/recipe-search', recipeSearch);
 
 
-
-function handleHomepage( request, response ) {
+function recipeSearch(request, response) {
+  const searchWord = request.query.searchWord.toLowerCase(); // we need to coordinate this varible with the frontend team
+  const calories = request.query.maxCalories; // coordinate this varible with the frontend team
+  const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.FOOD_API}`;
+  const queryStringParams = {
+    query: searchWord,
+    maxCalories: calories,
+  };
+  superagent.get(url)
+    .query(queryStringParams)
+    .then(data => {
+      // console.log('results are', data.body);
+      let recipes = data.body.results.map(recipe => new Recipe(recipe));
+      console.log(recipes);
+      response.status(200).render('pages/search-results', {recipes});
+    });
+}
+function Recipe(data){
+  this.recipeName = data.title;
+  this.calories = data.nutrition[0].amount;
+  this.image = data.image;
+}
+function handleHomepage(request, response ) {
   response.status(200).render('pages/index');
 }
 
-function handleLoginPage( request, response ) {
+function handleLoginPage(request, response ) {
   let SQL = 'SELECT * FROM profiles WHERE username = $1';
   let VALUES = [request.body.username];
 
-  client.query(SQL, VALUES) 
-    .then( results  => {
-      if (results.rows.length === 0) {
+  client.query(SQL, VALUES)
+    .then( results => {
+      if (results.rowCount === 0) {
         response.status(200).render('pages/nouser');
-      } else {      
-        response.status(200).render('pages/profile', {profiles:results.rows[0]});
+      } else {
+        console.log('ok');
+        response.status(200).render('pages/profile', {profile:results.rows[0]});
       }
     })
     .catch(error => {
@@ -65,16 +89,16 @@ function handleDelete( request, response) {
 function registerUser(request, response) {
   let SQL = `
     INSERT INTO profiles (username, calories, allergies) 
-    VALUES ($1, $2, $3)`; 
+    VALUES ($1, $2, $3)`;
   let VALUES = [
     request.body.username,
     request.body.calories,
     request.body.allergies
   ];
   client.query(SQL, VALUES)
-  .then(results => {
-    response.status(200).redirect('/');
-  })
+    .then(results => {
+      response.status(200).redirect('/');
+    });
 }
 
 function loadRegisterPage(request,response) {
