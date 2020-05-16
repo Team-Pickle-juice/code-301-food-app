@@ -16,7 +16,7 @@ CREATE TABLE meal_plan (
     username VARCHAR(255),
     recipe_id VARCHAR(255),
     img_url VARCHAR(255),
-    ingredients VARCHAR(255),
+    ingredients VARCHAR(8000),
     instructions VARCHAR(8000),
     price VARCHAR(255)
 )
