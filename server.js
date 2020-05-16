@@ -78,17 +78,42 @@ function addRecipe(request, response) {
   let SQL = `INSERT INTO meal_plan (username, recipe_id, img_url, ingredients, instructions, price)
   VALUES ($1, $2, $3, $4, $5, $6)`;
   let VALUES = [
-    // request.body.username,
-    // request.body.recipe_id,
+    request.body.username,
+    request.body.recipe_id,
+    request.body.img_url,
   ];
-
-console.log(request.body);
+  // console.log(request.body.recipe_id);
+  console.log(recipeInformation(request.body.recipe_id));
+  recipeInformation(request.body.recipe_id)
+    .then(items => {
+      items.forEach(item)
+      // let values = concatenate VALUES with item
+    });
   client.query(SQL, VALUES)
     .then( () => {
       response.status(200).redirect('/');
     })
     .catch( error => {
       console.error(error.message);
+    });
+}
+
+function recipeInformation (id) {
+  let url = `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${id}/information`;
+  return superagent.get(url)
+    .set ({
+      'x-rapidapi-host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com',
+      'x-rapidapi-key': process.env.FOOD_API,
+    })
+    .then(data => {
+      const ingredients = data.body.extendedIngredients.map(item => item.original);
+      const recipeInfo = [
+        data.body.instructions,
+        data.body.pricePerServing
+      ];
+      recipeInfo.unshift(ingredients);
+      console.log(recipeInfo);
+      return recipeInfo;
     });
 }
 
@@ -118,7 +143,7 @@ function handleLoginPage(request, response ) {
       if (results.rowCount === 0) {
         response.status(200).render('pages/nouser');
       } else {
-        console.log(results.rows[0]);
+        // console.log(results.rows[0]);
         response.status(200).render('pages/profile', {profile:results.rows[0], result:false,});
       }
     })
@@ -130,7 +155,7 @@ function handleLoginPage(request, response ) {
 // delete by username not id
 function handleDelete( request, response) {
   // response.status(200).redirect('/');
-  console.log(request.params);
+  // console.log(request.params);
   deleteRecipes(request.params.username)
     .then( () => deleteUser(request.params.username))
     .then( response.status(200).redirect('/') );
@@ -139,13 +164,13 @@ function handleDelete( request, response) {
 function deleteUser(username) {
   let SQL = 'DELETE FROM profiles WHERE username = $1';
   let VALUES = [username];
-  return client.query(SQL, VALUES)
+  return client.query(SQL, VALUES);
 }
 
 function deleteRecipes(username) {
   let SQL = 'DELETE FROM meal_plan WHERE username = $1';
   let VALUES = [username];
-  return client.query(SQL, VALUES)
+  return client.query(SQL, VALUES);
 }
 
 // register user
@@ -154,7 +179,7 @@ function registerUser(request, response) {
     INSERT INTO profiles (username, calories, allergies) 
     VALUES ($1, $2, $3)`;
   let allergies = request.body.allergies;
-  console.log(typeof allergies);
+  // console.log(typeof allergies);
 
   if(typeof allergies === 'object'){
     allergies = allergies.join(', ');
