@@ -82,20 +82,20 @@ function addRecipe(request, response) {
     request.body.recipe_id,
     request.body.img_url,
   ];
-  // console.log(request.body.recipe_id);
-  console.log(recipeInformation(request.body.recipe_id));
+
   recipeInformation(request.body.recipe_id)
-    .then(items => {
-      items.forEach(item)
-      // let values = concatenate VALUES with item
-    });
-  client.query(SQL, VALUES)
-    .then( () => {
-      response.status(200).redirect('/');
-    })
+    .then(items => items.forEach( item => {
+      VALUES.push(item);
+    }))
+    .then( () => addToSql(SQL, VALUES) )
+    .then( () => response.status(200).redirect('/') ) // make render to profile.ejs
     .catch( error => {
       console.error(error.message);
     });
+}
+
+function addToSql (SQL, VALUES) {
+  return client.query(SQL,VALUES);
 }
 
 function recipeInformation (id) {
@@ -112,7 +112,7 @@ function recipeInformation (id) {
         data.body.pricePerServing
       ];
       recipeInfo.unshift(ingredients);
-      console.log(recipeInfo);
+      // console.log(recipeInfo);
       return recipeInfo;
     });
 }
