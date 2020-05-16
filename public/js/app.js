@@ -1,6 +1,7 @@
 'use strict';
 
 $('.recipeForm').on('click' , recipeInformation);
+$('.hideInfoButton').on('click' , hideRecipeInformation)
 
 function recipeInformation (event) {
   event.preventDefault();
@@ -18,19 +19,17 @@ function recipeInformation (event) {
     }
   };
   $.ajax(url, ajaxSettings)
-    .then( recipe => {
-      console.log(recipe);
-      renderRecipeInfo(recipe, $(this).prev());
-    });
+  .then( recipe => {
+    console.log(recipe);
+    renderRecipeInfo(recipe, $(this).prev());
+    $('.hideInfoButton').show();
+    $(this).children('.recipeInfo').hide();
+  });
 }
 
 function renderRecipeInfo(data, container) {
   let template = $('#recipeInfo-template').html();
-  console.log('Price is:' + data.pricePerServing);
   let ingredientList = data.extendedIngredients.map( item => item.original);
-  console.log('the ingredients list is', ingredientList);
-  // let servings = data.extendedIngredients.map( item => item.original);
-  // console.log('the serving size', data.servings);
   let view = {
     price: `$${(data.pricePerServing/100).toFixed(2)}`,
     instructions: data.instructions,
@@ -39,3 +38,13 @@ function renderRecipeInfo(data, container) {
   }
   container.html( Mustache.render(template, view) );
 }
+
+
+function hideRecipeInformation(e) {
+  e.preventDefault();
+  $('ul').hide();
+  $('.hideInfoButton').hide();
+  $('.recipeInfo').show();
+}
+
+$('.hideInfoButton').hide();
