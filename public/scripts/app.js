@@ -10,22 +10,24 @@ function recipeInformation (event) {
   let requestedRecipe = $('.recipeID').val();
   let url = `https://api.spoonacular.com/recipes/${requestedRecipe}/information?apiKey=${API}&includeNutrition=true`;
 
-  // const ajaxSettings = {
-  //   method: 'get',
-  //   dataType: 'json',
-  //   data: {
-  //     // recipe: extendedIngredients,
-  //     // recipe: instructions,
-  //     recipe: pricePerServing,
-  //   },
-  // };
+  const ajaxSettings = {
+    method: 'get',
+    dataType: 'json',
+    // data: {
+    //   recipe: extendedIngredients,
+    //   recipeOne: instructions,
+    //   recipe3Two: pricePerServing
+    // },
+  };
 
-  $.ajax(url)
+  $.ajax(url, ajaxSettings)
     .then( recipe => {
-    renderRecipeInfo(recipe);
-  });
+      console.log(recipe.extendedIngredients);
+      renderRecipeInfo(recipe);
+    });
 
-};
+}
+
 
 function renderRecipeInfo(data) {
   let template = $('#recipeInfo-template').html();
@@ -34,6 +36,6 @@ function renderRecipeInfo(data) {
   //   price: data.pricePerServing
   // };
   let price = data.pricePerServing;
-console.log('This is the object:' + price);
+  console.log('This is the object:' + price);
   container.html( Mustache.render(template, price) );
 }
