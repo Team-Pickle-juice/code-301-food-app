@@ -4,9 +4,17 @@
     <%- include('../partials/head') %>
     <title>Search Results</title>
 </head>
+
 <body>
 
     <%- include('../partials/header') %>
+    <script type="x-tmpl-mustache" id="recipeInfo-template">
+        <ul>
+          
+          <li>instructions{{recipe.instructions}}</li>
+          <li>price{{recipe.pricePerServing}}</li>
+        </ul>
+      </script>
     
     <h1>Choose from Your Recipe List</h1>
     <% recipes.forEach (recipe => { %>

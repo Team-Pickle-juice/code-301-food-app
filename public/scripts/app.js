@@ -22,8 +22,10 @@ function recipeInformation (event) {
 
   $.ajax(url, ajaxSettings)
     .then( recipe => {
-      console.log(recipe.extendedIngredients);
+      console.log(recipe);
+      
       renderRecipeInfo(recipe);
+
     });
 
 }
@@ -32,10 +34,7 @@ function recipeInformation (event) {
 function renderRecipeInfo(data) {
   let template = $('#recipeInfo-template').html();
   let container = $('.recipeDetails');
-  // let reee = {
-  //   price: data.pricePerServing
-  // };
-  let price = data.pricePerServing;
-  console.log('This is the object:' + price);
-  container.html( Mustache.render(template, price) );
+  // let price = data.pricePerServing;
+  console.log('Price is:' + data.pricePerServing);
+  container.html( Mustache.render(template, data.price) );
 }
