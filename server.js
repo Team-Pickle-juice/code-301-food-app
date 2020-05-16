@@ -144,8 +144,12 @@ function registerUser(request, response) {
     INSERT INTO profiles (username, calories, allergies) 
     VALUES ($1, $2, $3)`;
   let allergies = request.body.allergies;
-  allergies = allergies.join(', ');
-  console.log(allergies);
+  console.log(typeof allergies);
+
+  if(typeof allergies === 'object'){
+    allergies = allergies.join(', ');
+  }
+
   let VALUES = [
     request.body.username,
     request.body.calories,
