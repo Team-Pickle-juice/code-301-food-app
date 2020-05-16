@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="x-tmpl-mustache" id="recipeInfo-template">
-        <ul>
-          <li>ingredients{{recipe.ingredients}}</li>
-          <li>instructions{{recipe.instructions}}</li>
-          <li>price{{recipe.price}}</li>
-        </ul>
-      </script>
+    <%- include('../partials/head') %>
     <title>Search Results</title>
 </head>
+
 <body>
+
+    <%- include('../partials/header') %>
+    <script type="x-tmpl-mustache" id="recipeInfo-template">
+        <ul>
+          
+          <li>instructions{{recipe.instructions}}</li>
+          <li>price{{recipe.pricePerServing}}</li>
+        </ul>
+      </script>
+    
     <h1>Choose from Your Recipe List</h1>
     <% recipes.forEach (recipe => { %>
         <section>
@@ -35,9 +38,8 @@
             
         </section>
    <% }) %>
-   <script src="https://unpkg.com/mustache@latest"></script>
-   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-   <script src="/scripts/app.js"></script>
+    <%- include('../partials/footer') %>
+    <%- include('../partials/script') %>
 </body>
 
 </html>
