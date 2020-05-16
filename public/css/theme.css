@@ -1,0 +1,22 @@
+@media only screen and (max-width: 1024px) {
+   
+    body {
+        border: 1px solid black;
+        font-family: 'Pangolin', cursive;
+    }
+    h1 {
+        font-size: 2rem;
+    }
+    h2 {
+        font-size: 1.5rem;
+    }
+    input, button{
+        border-color: green;
+        border-radius: 5px 5px;
+        background-color: whitesmoke;
+    }
+    input {
+        text-indent: .5rem;
+    }
+   
+  }
