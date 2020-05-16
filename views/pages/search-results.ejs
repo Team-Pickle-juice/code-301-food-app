@@ -17,7 +17,7 @@
             <p><%= recipe.recipeName %></p>
             <h3>Calories</h3>
             <p><%= recipe.calories %></p>
-            <section class="recipeDetails">
+            <section class="<%= recipe.recipe_id %>">
 
             </section>
 
@@ -28,6 +28,10 @@
                 <input type="hidden" name="recipeID" class="recipeID" value="<%= recipe.recipe_id %>">
                 <button class="recipeInfo">View Recipe Information</button>
             </form> 
+
+            <form class="hideInfo">
+                <button class="hideInfoButton">Hide Recipe Information</button>
+            </form>
             
             <form class="saveRecipeForm" action="add-recipe" method="POST">
                 <input type='hidden' name="username" value="<%= userName %>">
