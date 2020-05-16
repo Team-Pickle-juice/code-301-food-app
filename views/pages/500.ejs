@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <%- include('../partials/head.ejs') %>
   <title>500 Server Error</title>
 </head>
 
 <body>
   <header>
+    <%- include('../partials/header') %>
     <h1>500 Error Error <%= err.message %> </h1>
   </header>
   
   <main>
-
-  <%- include('../partials/script.ejs') %>
+  <%- include('../partials/footer') %>
+  <%- include('../partials/script') %>
 </body>
 </html>
