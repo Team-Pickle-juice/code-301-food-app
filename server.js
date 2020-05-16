@@ -33,21 +33,29 @@ app.post('/add-recipe', addRecipe);
 app.get('/saved-meals', savedMealsHandler);
 
 // recipe API function
-function recipeSearch(request, response) {
+function recipeSearch(request, response) { 
+  const allergy = request.query.allergy;
+  const allergyArray = allergy.split(', ');  
   const searchWord = request.query.searchWord.toLowerCase(); // we need to coordinate this varible with the frontend team
   const calories = request.query.maxCalories; // coordinate this varible with the frontend team
+  if(allergyArray.includes(searchWord)){
+    let user = {'username': request.query.username, 'allergies': allergy, 'calories': request.query.calories, };
+    response.render('pages/profile', {result:true, profile:user,});
+  }
   const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.FOOD_API}`;
   const queryStringParams = {
     query: searchWord,
     maxCalories: calories,
+    excludeIngredients: allergy,
   };
+  console.log(allergy);
   superagent.get(url)
     .query(queryStringParams)
     .then(data => {
       // console.log('results are', data.body);
       let recipes = data.body.results.map(recipe => new Recipe(recipe));
       console.log(recipes);
-      response.status(200).render('pages/search-results', {recipes,});
+      response.status(200).render('pages/search-results', {recipes, allergy:allergy,});
     });
 }
 // recipe constructor
@@ -105,8 +113,8 @@ function handleLoginPage(request, response ) {
       if (results.rowCount === 0) {
         response.status(200).render('pages/nouser');
       } else {
-        console.log('ok');
-        response.status(200).render('pages/profile', {profile:results.rows[0],});
+        console.log(results.rows[0]);
+        response.status(200).render('pages/profile', {profile:results.rows[0], result:false,});
       }
     })
     .catch(error => {
@@ -129,10 +137,13 @@ function registerUser(request, response) {
   let SQL = `
     INSERT INTO profiles (username, calories, allergies) 
     VALUES ($1, $2, $3)`;
+  let allergies = request.body.allergies;
+  allergies = allergies.join(', ');
+  console.log(allergies);
   let VALUES = [
     request.body.username,
     request.body.calories,
-    request.body.allergies
+    allergies
   ];
   client.query(SQL, VALUES)
     .then(results => {
