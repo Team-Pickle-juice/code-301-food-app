@@ -42,26 +42,33 @@ function recipeSearch(request, response) {
     let user = {'username': request.query.username, 'allergies': allergy, 'calories': request.query.calories, };
     response.render('pages/profile', {result:true, profile:user,});
   }
-  const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.FOOD_API}`;
+  const url = `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/searchComplex`;
+
+  // const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.FOOD_API}`;
   const queryStringParams = {
     query: searchWord,
     maxCalories: calories,
     excludeIngredients: allergy,
   };
-  console.log(allergy);
+  // console.log(allergy);
   superagent.get(url)
     .query(queryStringParams)
+    .set({
+      "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+      "x-rapidapi-key": process.env.FOOD_API,
+      "useQueryString": true
+    })
     .then(data => {
       // console.log('results are', data.body);
       let recipes = data.body.results.map(recipe => new Recipe(recipe));
-      console.log(recipes);
+      // console.log(recipes);
       response.status(200).render('pages/search-results', {recipes, allergy:allergy,});
     });
 }
 // recipe constructor
 function Recipe(data){
   this.recipeName = data.title;
-  this.calories = data.nutrition[0].amount;
+  this.calories = data.calories;
   this.image = data.image;
   this.recipe_id = data.id;
 }
