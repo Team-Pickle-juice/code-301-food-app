@@ -25,7 +25,7 @@ app.use(express.static('./public'));
 //ROUTES ---- PLEASE ADD ALL ROUTES IN THIS SECTION ----
 app.get('/', handleHomepage);
 app.post('/username', handleLoginPage);
-app.delete('/delete/:id', handleDelete);
+app.delete('/delete/:username', handleDelete);
 app.post('/register-user', registerUser);
 app.get('/register', loadRegisterPage);
 app.get('/recipe-search', recipeSearch);
@@ -128,14 +128,25 @@ function handleLoginPage(request, response ) {
     });
 }
 
-
+// delete by username not id
 function handleDelete( request, response) {
-  let SQL = 'DELETE FROM profiles WHERE id = $1';
-  let VALUES = [request.params.id];
-  client.query(SQL, VALUES)
-    .then(results => {
-      response.status(200).redirect('/');
-    });
+  // response.status(200).redirect('/');
+  console.log(request.params);
+  deleteRecipes(request.params.username)
+    .then( () => deleteUser(request.params.username))
+    .then( response.status(200).redirect('/') );
+}
+
+function deleteUser(username) {
+  let SQL = 'DELETE FROM profiles WHERE username = $1';
+  let VALUES = [username];
+  return client.query(SQL, VALUES)
+}
+
+function deleteRecipes(username) {
+  let SQL = 'DELETE FROM meal_plan WHERE username = $1';
+  let VALUES = [username];
+  return client.query(SQL, VALUES)
 }
 
 // register user
