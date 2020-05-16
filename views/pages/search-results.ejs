@@ -26,6 +26,7 @@
             </section>
 
             <form class="recipeForm">
+                <input type='hidden' id="allergy" value='<%= allergy %>' name="allergies">
                 <input type="hidden" name="recipename">
                 <input type="hidden" name="calories">
                 <input type="hidden" name="recipeID" class="recipeID" value="<%= recipe.recipe_id %>">
