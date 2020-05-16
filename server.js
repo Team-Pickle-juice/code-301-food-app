@@ -33,9 +33,9 @@ app.post('/add-recipe', addRecipe);
 app.get('/saved-meals', savedMealsHandler);
 
 // recipe API function
-function recipeSearch(request, response) { 
+function recipeSearch(request, response) {
   const allergy = request.query.allergy;
-  const allergyArray = allergy.split(', ');  
+  const allergyArray = allergy.split(', ');
   const searchWord = request.query.searchWord.toLowerCase(); // we need to coordinate this varible with the frontend team
   const calories = request.query.maxCalories; // coordinate this varible with the frontend team
   if(allergyArray.includes(searchWord)){
@@ -144,8 +144,12 @@ function registerUser(request, response) {
     INSERT INTO profiles (username, calories, allergies) 
     VALUES ($1, $2, $3)`;
   let allergies = request.body.allergies;
-  allergies = allergies.join(', ');
-  console.log(allergies);
+  console.log(typeof allergies);
+
+  if(typeof allergies === 'object'){
+    allergies = allergies.join(', ');
+  }
+
   let VALUES = [
     request.body.username,
     request.body.calories,

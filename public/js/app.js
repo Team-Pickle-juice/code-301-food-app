@@ -29,10 +29,13 @@ function renderRecipeInfo(data, container) {
   console.log('Price is:' + data.pricePerServing);
   let ingredientList = data.extendedIngredients.map( item => item.original);
   console.log('the ingredients list is', ingredientList);
+  // let servings = data.extendedIngredients.map( item => item.original);
+  // console.log('the serving size', data.servings);
   let view = {
     price: `$${(data.pricePerServing/100).toFixed(2)}`,
     instructions: data.instructions,
     ingredients: ingredientList,
+    servings: data.servings,
   }
   container.html( Mustache.render(template, view) );
 }
