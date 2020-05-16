@@ -29,6 +29,11 @@
                 <button class="recipeInfo">View Recipe Information</button>
             </form> 
             
+            <form class="saveRecipeForm" action="add-recipe" method="POST">
+                <input type='hidden' name="username" value="<%= userName %>">
+                <input type='hidden' name="recipe_id" value="<%= recipe.recipe_id %>">
+                <button class="saveRecipe">Add To My Meal Plan</button>
+            </form>
         </section>
     <% }) %>
     <%- include('../partials/footer') %>

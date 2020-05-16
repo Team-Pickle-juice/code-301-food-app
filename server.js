@@ -34,6 +34,7 @@ app.get('/saved-meals', savedMealsHandler);
 
 // recipe API function
 function recipeSearch(request, response) {
+  const userName = request.query.username;
   const allergy = request.query.allergy;
   const allergyArray = allergy.split(', ');
   const searchWord = request.query.searchWord.toLowerCase(); // we need to coordinate this varible with the frontend team
@@ -60,7 +61,7 @@ function recipeSearch(request, response) {
       // console.log('results are', data.body);
       let recipes = data.body.results.map(recipe => new Recipe(recipe));
       // console.log(recipes);
-      response.status(200).render('pages/search-results', {recipes, allergy:allergy,});
+      response.status(200).render('pages/search-results', {recipes, allergy:allergy, userName});
     });
 }
 
@@ -77,16 +78,14 @@ function addRecipe(request, response) {
   let SQL = `INSERT INTO meal_plan (username, recipe_id, img_url, ingredients, instructions, price)
   VALUES ($1, $2, $3, $4, $5, $6)`;
   let VALUES = [
-    request.body.username,
-    request.body.recipe_id,
-    request.body.img_url,
-    request.body.ingredients,
-    request.body.instructions,
-    request.body.price
+    // request.body.username,
+    // request.body.recipe_id,
   ];
+
+console.log(request.body);
   client.query(SQL, VALUES)
     .then( () => {
-      response.status(200).redirect('pages/saved-meals');
+      response.status(200).redirect('/');
     })
     .catch( error => {
       console.error(error.message);
