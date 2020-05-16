@@ -43,8 +43,6 @@ function recipeSearch(request, response) {
     response.render('pages/profile', {result:true, profile:user,});
   }
   const url = `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/searchComplex`;
-
-  // const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.FOOD_API}`;
   const queryStringParams = {
     query: searchWord,
     maxCalories: calories,
@@ -54,9 +52,9 @@ function recipeSearch(request, response) {
   superagent.get(url)
     .query(queryStringParams)
     .set({
-      "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-      "x-rapidapi-key": process.env.FOOD_API,
-      "useQueryString": true
+      'x-rapidapi-host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com',
+      'x-rapidapi-key': process.env.FOOD_API,
+      'useQueryString': true
     })
     .then(data => {
       // console.log('results are', data.body);
@@ -65,6 +63,7 @@ function recipeSearch(request, response) {
       response.status(200).render('pages/search-results', {recipes, allergy:allergy,});
     });
 }
+
 // recipe constructor
 function Recipe(data){
   this.recipeName = data.title;
