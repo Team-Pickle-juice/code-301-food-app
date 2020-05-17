@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('../partials/head.ejs') %>
+    <%- include('../partials/head') %>
     <title>Register Page</title>
 </head>
 <body>
+    
+    <%- include('../partials/header') %>
+
     <h1>Create New User</h1>
     <form action="/register-user" method="POST">
     <div>
@@ -14,13 +17,31 @@
         <input type="text" name="calories" id="" class="textInput" placeholder="Calories Per Day">
     </div>
     <div>
-        <input type="text" name="allergies" id="" class="textInput" placeholder="Allergy One">
+        <h2>Select All Allergies that Apply</h2>
+        <label for="">Dairy</label>
+        <input type="checkbox" name="allergies" id="" value="dairy" class="textInput" placeholder="Allergies">
+        <label for="">Soy</label>
+        <input type="checkbox" name="allergies" id="" value="soy" class="textInput" placeholder="Allergies">
+        <label for="">Peanuts</label>
+        <input type="checkbox" name="allergies" id="" value="peanuts" class="textInput" placeholder="Allergies">
+        <label for="">Fish</label>
+        <input type="checkbox" name="allergies" id="" value="fish" class="textInput" placeholder="Allergies">
+        <label for="">Nuts</label>
+        <input type="checkbox" name="allergies" id="" value="nuts" class="textInput" placeholder="Allergies">
+        <label for="">Eggs</label>
+        <input type="checkbox" name="allergies" id="" value="eggs" class="textInput" placeholder="Allergies">
+        <label for="">Shellfish</label>
+        <input type="checkbox" name="allergies" id="" value="shellfish" class="textInput" placeholder="Allergies">
+        <label for="">Wheat</label>
+        <input type="checkbox" name="allergies" id="" value="wheat" class="textInput" placeholder="Allergies">
+        
     </div>
     <!-- <button>Add Allergy</button> -->
     <!-- Add Jquery Functionality to add more allergies -->
     <button type="submit" id="saveButton">Save</button>
     </form>
     
-
+    <%- include('../partials/footer') %>
+    <%- include('../partials/script') %>
 </body>
 </html>

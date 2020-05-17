@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="x-tmpl-mustache" id="recipeInfo-template">
-        <ul>
-          <li>ingredients{{recipe.ingredients}}</li>
-          <li>instructions{{recipe.instructions}}</li>
-          <li>price{{recipe.price}}</li>
-        </ul>
-      </script>
+    <%- include('../partials/head') %>
     <title>Search Results</title>
 </head>
+
 <body>
+
+    <%- include('../partials/header') %>
+    
     <h1>Choose from Your Recipe List</h1>
     <% recipes.forEach (recipe => { %>
         <section>
@@ -21,22 +17,36 @@
             <p><%= recipe.recipeName %></p>
             <h3>Calories</h3>
             <p><%= recipe.calories %></p>
-            <section class="recipeDetails">
+            <section class="<%= recipe.recipe_id %>">
 
             </section>
 
             <form class="recipeForm">
+                <input type='hidden' id="allergy" value='<%= allergy %>' name="allergies">
                 <input type="hidden" name="recipename">
                 <input type="hidden" name="calories">
                 <input type="hidden" name="recipeID" class="recipeID" value="<%= recipe.recipe_id %>">
                 <button class="recipeInfo">View Recipe Information</button>
             </form> 
+
+            <form class="hideInfo">
+                <button class="hideInfoButton">Hide Recipe Information</button>
+            </form>
+
             
+            
+            <form class="saveRecipeForm" action="add-recipe" method="POST">
+                <input type='hidden' name="username" value="<%= user.username %>">
+                <input type='hidden' name="calories" value="<%= user.calories %>">
+                <input type='hidden' name="allergies" value="<%= user.allergies %>">
+                <input type='hidden' name="recipe_id" value="<%= recipe.recipe_id %>">
+                <input type='hidden' name="img_url" value="<%= recipe.image %>">
+                <button class="saveRecipe">Add To My Meal Plan</button>
+            </form>
         </section>
-   <% }) %>
-   <script src="https://unpkg.com/mustache@latest"></script>
-   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-   <script src="/scripts/app.js"></script>
+    <% }) %>
+    <%- include('../partials/footer') %>
+    <%- include('../partials/script') %>
 </body>
 
 </html>

@@ -25,7 +25,7 @@ app.use(express.static('./public'));
 //ROUTES ---- PLEASE ADD ALL ROUTES IN THIS SECTION ----
 app.get('/', handleHomepage);
 app.post('/username', handleLoginPage);
-app.delete('/delete/:id', handleDelete);
+app.delete('/delete/:username', handleDelete);
 app.post('/register-user', registerUser);
 app.get('/register', loadRegisterPage);
 app.get('/recipe-search', recipeSearch);
@@ -34,26 +34,45 @@ app.get('/saved-meals', savedMealsHandler);
 
 // recipe API function
 function recipeSearch(request, response) {
+  const user = {
+    username: request.query.username,
+    calories: request.query.calories,
+    allergies: request.query.allergy,
+  }
+  const allergy = request.query.allergy;
+  const allergyArray = allergy.split(', ');
   const searchWord = request.query.searchWord.toLowerCase(); // we need to coordinate this varible with the frontend team
   const calories = request.query.maxCalories; // coordinate this varible with the frontend team
-  const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.FOOD_API}`;
+  if(allergyArray.includes(searchWord)){
+    let user = {'username': request.query.username, 'allergies': allergy, 'calories': request.query.calories, };
+    response.render('pages/profile', {result:true, profile:user,});
+  }
+  const url = `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/searchComplex`;
   const queryStringParams = {
     query: searchWord,
     maxCalories: calories,
+    excludeIngredients: allergy,
   };
+  // console.log(allergy);
   superagent.get(url)
     .query(queryStringParams)
+    .set({
+      'x-rapidapi-host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com',
+      'x-rapidapi-key': process.env.FOOD_API,
+      'useQueryString': true
+    })
     .then(data => {
       // console.log('results are', data.body);
       let recipes = data.body.results.map(recipe => new Recipe(recipe));
-      console.log(recipes);
-      response.status(200).render('pages/search-results', {recipes,});
+      // console.log(recipes);
+      response.status(200).render('pages/search-results', {recipes, allergy:allergy, user});
     });
 }
+
 // recipe constructor
 function Recipe(data){
   this.recipeName = data.title;
-  this.calories = data.nutrition[0].amount;
+  this.calories = data.calories;
   this.image = data.image;
   this.recipe_id = data.id;
 }
@@ -66,30 +85,65 @@ function addRecipe(request, response) {
     request.body.username,
     request.body.recipe_id,
     request.body.img_url,
-    request.body.ingredients,
-    request.body.instructions,
-    request.body.price
   ];
-  client.query(SQL, VALUES)
-    .then( () => {
-      response.status(200).redirect('pages/saved-meals');
-    })
+  let profile = {
+    username: request.body.username,
+    calories: request.body.calories,
+    allergies: request.body.allergies,
+  };
+  console.log(request.body.username);
+  recipeInformation(request.body.recipe_id)
+    .then(items => items.forEach( item => {
+      VALUES.push(item);
+    }))
+    .then( () => addToSql(SQL, VALUES) )
+    .then( () => savedMealsHandler(request.body.username) ) // get the results from this to render
+    .then( data => {
+      let recipes = data.rows.map(recipe => new SavedRecipe(recipe));
+      response.status(200).render('pages/profile', {profile, recipes} );
+      }) 
     .catch( error => {
       console.error(error.message);
     });
 }
 
+function SavedRecipe(data) {
+  this.recipe_id = data.recipe_id,
+  this.img_url = data.img_url,
+  this.ingredients = data.ingredients,
+  this.instructions = data.instructions,
+  this.price = data.price
+}
+
+function addToSql (SQL, VALUES) {
+  return client.query(SQL,VALUES);
+}
+
+function recipeInformation (id) {
+  let url = `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${id}/information`;
+  return superagent.get(url)
+    .set ({
+      'x-rapidapi-host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com',
+      'x-rapidapi-key': process.env.FOOD_API,
+    })
+    .then(data => {
+      const ingredients = data.body.extendedIngredients.map(item => item.original);
+      const recipeInfo = [
+        data.body.instructions,
+        data.body.pricePerServing
+      ];
+      recipeInfo.unshift(ingredients);
+      // console.log(recipeInfo);
+      return recipeInfo;
+    });
+}
+
 // handler functions
 
-function savedMealsHandler (request, response) {
-  let SQL = `SELECT * FROM meal_plan`;
-  client.query(SQL)
-    .then (results => {
-      response.status(200).render('pages/saved-meals', {meal_plan:results.rows,});
-    })
-    .catch ( error => {
-      throw new Error(error);
-    });
+function savedMealsHandler (username) {
+  let SQL = `SELECT * FROM meal_plan WHERE username = $1`;
+  let VALUES = [username];
+  return client.query(SQL, VALUES);
 }
 
 function handleHomepage(request, response ) {
@@ -99,14 +153,14 @@ function handleHomepage(request, response ) {
 function handleLoginPage(request, response ) {
   let SQL = 'SELECT * FROM profiles WHERE username = $1';
   let VALUES = [request.body.username];
-
+  let recipes = []; // for the future, add in saved recipes
   client.query(SQL, VALUES)
     .then( results => {
       if (results.rowCount === 0) {
         response.status(200).render('pages/nouser');
       } else {
-        console.log('ok');
-        response.status(200).render('pages/profile', {profile:results.rows[0],});
+        // console.log(results.rows[0]);
+        response.status(200).render('pages/profile', {profile:results.rows[0], result:false, recipes});
       }
     })
     .catch(error => {
@@ -114,14 +168,25 @@ function handleLoginPage(request, response ) {
     });
 }
 
-
+// delete by username not id
 function handleDelete( request, response) {
-  let SQL = 'DELETE FROM profiles WHERE id = $1';
-  let VALUES = [request.params.id];
-  client.query(SQL, VALUES)
-    .then(results => {
-      response.status(200).redirect('/');
-    });
+  // response.status(200).redirect('/');
+  // console.log(request.params);
+  deleteRecipes(request.params.username)
+    .then( () => deleteUser(request.params.username))
+    .then( response.status(200).redirect('/') );
+}
+
+function deleteUser(username) {
+  let SQL = 'DELETE FROM profiles WHERE username = $1';
+  let VALUES = [username];
+  return client.query(SQL, VALUES);
+}
+
+function deleteRecipes(username) {
+  let SQL = 'DELETE FROM meal_plan WHERE username = $1';
+  let VALUES = [username];
+  return client.query(SQL, VALUES);
 }
 
 // register user
@@ -129,10 +194,17 @@ function registerUser(request, response) {
   let SQL = `
     INSERT INTO profiles (username, calories, allergies) 
     VALUES ($1, $2, $3)`;
+  let allergies = request.body.allergies;
+  // console.log(typeof allergies);
+
+  if(typeof allergies === 'object'){
+    allergies = allergies.join(', ');
+  }
+
   let VALUES = [
     request.body.username,
     request.body.calories,
-    request.body.allergies
+    allergies
   ];
   client.query(SQL, VALUES)
     .then(results => {

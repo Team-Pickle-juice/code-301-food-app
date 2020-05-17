@@ -1,0 +1,41 @@
+@media only screen and (max-width: 1024px) {
+   
+    main {
+        margin: 2rem auto;
+        padding-bottom: 2.5rem;
+        max-width: 80%;
+        
+    }
+
+    #pickleGuy {
+        width: 50%;
+        height: 50%;
+    }
+
+    input , button {
+        margin: 0 0 .5rem 0;
+        font-family: 'Pangolin', cursive;
+    }
+    a {
+        text-decoration: none;
+        color: green;
+        margin-right: 1.5rem;
+    }
+    footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 2.5rem;
+      }
+      p {
+          margin-top: 1rem;
+          margin-bottom: 1rem;
+      }
+      header {
+        margin-top: 2.5rem;
+      }
+      #about {
+        margin-top: 2rem;
+      }
+    
+  }
