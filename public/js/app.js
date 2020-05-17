@@ -22,7 +22,6 @@ function recipeInformation (event) {
   .then( recipe => {
     console.log(recipe);
     renderRecipeInfo(recipe, $(this).prev());
-    $('.hideInfoButton').show();
     $(this).children('.recipeInfo').hide();
   });
 }
@@ -37,6 +36,7 @@ function renderRecipeInfo(data, container) {
     servings: data.servings,
   }
   container.html( Mustache.render(template, view) );
+  $('.hideInfoButton').show();
 }
 
 

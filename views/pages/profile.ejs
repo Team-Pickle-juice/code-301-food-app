@@ -25,9 +25,7 @@
                 </h2>
             </li>
         <form action="/recipe-search" method="GET" id="">
-            <% if(result){ %>
-                <label>You're Allergic to this!</label>
-            <% } %>
+
             <input type="text" name="searchWord" placeholder="Enter Meal Name" required>
             <input type="number" name="maxCalories" placeholder="Max Calories Per Meal" required min="0">
             <input type="hidden" name="allergy" value="<%= profile.allergies %>">
@@ -40,6 +38,20 @@
             <button type="submit">Delete Profile</button>
         </form>
         </ul>
+        <ul>
+          <% recipes.forEach (recipe => { %>
+            <li>
+                <img src="<%= recipe.img_url %>"/>
+                <h3>Recipe Name</h3>
+                <p><%= recipe.recipe_id %></p>
+                <h3>Ingredients</h3>
+                <p><%= recipe.ingredients %></p>
+                <h3>Instructions</h3>
+                <p><%= recipe.instructions %></p>
+            </li>
+        <% }) %>
+        </ul>
+
     </main>
     <%- include('../partials/footer') %>
     <%- include('../partials/script') %>
