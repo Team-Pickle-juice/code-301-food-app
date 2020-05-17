@@ -34,7 +34,9 @@
             </form>
             
             <form class="saveRecipeForm" action="add-recipe" method="POST">
-                <input type='hidden' name="username" value="<%= userName %>">
+                <input type='hidden' name="username" value="<%= user.username %>">
+                <input type='hidden' name="calories" value="<%= user.calories %>">
+                <input type='hidden' name="allergies" value="<%= user.allergies %>">
                 <input type='hidden' name="recipe_id" value="<%= recipe.recipe_id %>">
                 <input type='hidden' name="img_url" value="<%= recipe.image %>">
                 <button class="saveRecipe">Add To My Meal Plan</button>
