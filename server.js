@@ -34,7 +34,11 @@ app.get('/saved-meals', savedMealsHandler);
 
 // recipe API function
 function recipeSearch(request, response) {
-  const userName = request.query.username;
+  const user = {
+    username: request.query.username,
+    calories: request.query.calories,
+    allergies: request.query.allergy,
+  }
   const allergy = request.query.allergy;
   const allergyArray = allergy.split(', ');
   const searchWord = request.query.searchWord.toLowerCase(); // we need to coordinate this varible with the frontend team
@@ -61,7 +65,7 @@ function recipeSearch(request, response) {
       // console.log('results are', data.body);
       let recipes = data.body.results.map(recipe => new Recipe(recipe));
       // console.log(recipes);
-      response.status(200).render('pages/search-results', {recipes, allergy:allergy, userName});
+      response.status(200).render('pages/search-results', {recipes, allergy:allergy, user});
     });
 }
 
@@ -82,16 +86,33 @@ function addRecipe(request, response) {
     request.body.recipe_id,
     request.body.img_url,
   ];
-
+  let profile = {
+    username: request.body.username,
+    calories: request.body.calories,
+    allergies: request.body.allergies,
+  };
+  console.log(request.body.username);
   recipeInformation(request.body.recipe_id)
     .then(items => items.forEach( item => {
       VALUES.push(item);
     }))
     .then( () => addToSql(SQL, VALUES) )
-    .then( () => response.status(200).redirect('/') ) // make render to profile.ejs
+    .then( () => savedMealsHandler(request.body.username) ) // get the results from this to render
+    .then( data => {
+      let recipes = data.rows.map(recipe => new SavedRecipe(recipe));
+      response.status(200).render('pages/profile', {profile, recipes} );
+      }) 
     .catch( error => {
       console.error(error.message);
     });
+}
+
+function SavedRecipe(data) {
+  this.recipe_id = data.recipe_id,
+  this.img_url = data.img_url,
+  this.ingredients = data.ingredients,
+  this.instructions = data.instructions,
+  this.price = data.price
 }
 
 function addToSql (SQL, VALUES) {
@@ -119,15 +140,10 @@ function recipeInformation (id) {
 
 // handler functions
 
-function savedMealsHandler (request, response) {
-  let SQL = `SELECT * FROM meal_plan`;
-  client.query(SQL)
-    .then (results => {
-      response.status(200).render('pages/saved-meals', {meal_plan:results.rows,});
-    })
-    .catch ( error => {
-      throw new Error(error);
-    });
+function savedMealsHandler (username) {
+  let SQL = `SELECT * FROM meal_plan WHERE username = $1`;
+  let VALUES = [username];
+  return client.query(SQL, VALUES);
 }
 
 function handleHomepage(request, response ) {
@@ -137,14 +153,14 @@ function handleHomepage(request, response ) {
 function handleLoginPage(request, response ) {
   let SQL = 'SELECT * FROM profiles WHERE username = $1';
   let VALUES = [request.body.username];
-
+  let recipes = []; // for the future, add in saved recipes
   client.query(SQL, VALUES)
     .then( results => {
       if (results.rowCount === 0) {
         response.status(200).render('pages/nouser');
       } else {
         // console.log(results.rows[0]);
-        response.status(200).render('pages/profile', {profile:results.rows[0], result:false,});
+        response.status(200).render('pages/profile', {profile:results.rows[0], result:false, recipes});
       }
     })
     .catch(error => {
