@@ -7,11 +7,6 @@
         
     }
 
-    #pickleGuy {
-        width: 50%;
-        height: 50%;
-    }
-
     input , button {
         margin: 0 0 .5rem 0;
         font-family: 'Pangolin', cursive;
@@ -37,13 +32,35 @@
         margin-top: 2rem;
       }
 
+      section {
+          display: flex;
+          flex-direction: column;
+          border: 1px solid black;
+          margin-bottom: 1.5rem;
+      }
+      /* about section */
+      #creators {
+          margin-left: 1.2rem;
+      }
+      #creators img {
+          width: 18%;
+          border-radius: 50% 50%;
+      }
+
+
+
+      /* navbar styling */
       .navBar {
-          overflow: hidden;
-          position: relative;
+        overflow: hidden;
+        position: relative;
+        background-image: url(https://images.unsplash.com/photo-1555243896-c709bfa0b564?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80);
+        background-repeat: no-repeat;
+        background-size: 100%;
       }
 
       .navBar #navLinks {
           display: none;
+          margin-left: 50%;
       }
 
       .navBar a {
