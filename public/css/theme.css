@@ -18,5 +18,16 @@
     input {
         text-indent: .5rem;
     }
+
+    span {
+        color: black;
+    }
+    span:nth-child(odd) {
+        color: green;
+    }
+    span:nth-child(even) {
+        color: green;
+    }
+   
    
   }
