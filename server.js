@@ -31,6 +31,8 @@ app.get('/register', loadRegisterPage);
 app.get('/recipe-search', recipeSearch);
 app.post('/add-recipe', addRecipe);
 app.get('/saved-meals', savedMealsHandler);
+app.delete('/delete-recipe/:id', handleDeleteRecipe);
+app.put('/update-recipe/:id', handleUpdateRecipe);
 
 // recipe API function
 function recipeSearch(request, response) {
@@ -77,6 +79,36 @@ function Recipe(data){
   this.recipe_id = data.id;
 }
 
+
+//Delete Recipe
+function handleDeleteRecipe(request, response) {
+  let SQL = "DELETE FROM meal_plan WHERE recipe_id = $1";
+  let VALUES = [request.params.id];
+  console.log('This is Values inside delete', VALUES)
+  client.query(SQL, VALUES)
+    .then(results => {
+      console.log(results)
+      response.status(200).redirect('/')
+    })
+}
+
+//Update Recipe
+function handleUpdateRecipe(request, response) {
+  let SQL = 'UPDATE meal_plan set recipe_id = $1 ingridients = $2, instructions = $3'
+  let VALUES = [
+    request.body.recipe_id,
+    request.body.recipe.ingredients,
+    request.body.recipe.instructions,
+    request.params.id,
+  ];
+
+  client.query(SQL, VALUES)
+    .then(results => {
+      response.status(200).redirect(`pages/profle/${request.params.id}`)
+    })
+}
+
+
 // add recipe function
 function addRecipe(request, response) {
   let SQL = `INSERT INTO meal_plan (username, recipe_id, img_url, ingredients, instructions, price)
@@ -101,6 +133,7 @@ function addRecipe(request, response) {
     .then( data => {
       let recipes = data.rows.map(recipe => new SavedRecipe(recipe));
       response.status(200).render('pages/profile', {profile, recipes} );
+      console.log(recipes)
       }) 
     .catch( error => {
       console.error(error.message);
