@@ -48,6 +48,18 @@
                 <p><%= recipe.ingredients %></p>
                 <h3>Instructions</h3>
                 <p><%= recipe.instructions %></p>
+                <h3>ID</h3>
+                <p><%= recipe.id %></p>
+                <form method="post" action="/delete-recipe/<%= recipe.recipe_id %>?_method=delete">
+                    <button type="submit">Delete this recipe</button>
+                </form>
+
+                <form method="post" action="/update-recipe/<%= recipe.recipe_id %>?_method=put">
+                    <input class="update" name="recipe_id" value="<%= recipe.recipe_id %>">
+                    <input class="update" name="ingredients" value="<%= recipe.ingredients %>">
+                    <input class="update" name="instructions" value="<%= recipe.instructions %>">
+                    <button type="submit">Update this recipe</button>
+                </form>
             </li>
         <% }) %>
         </ul>
