@@ -1,12 +1,13 @@
 'use strict';
 
-$('.recipeForm').on('click' , recipeInformation);
+$('.recipeInfo').on('click' , recipeInformation);
 $('.hideInfoButton').on('click' , hideRecipeInformation)
 
 function recipeInformation (event) {
   event.preventDefault();
   let API = '8402ed04afmsh1e160bbbe297485p1e66e3jsn207dc4e5b10a';
-  let requestedRecipe = $(':nth-child(4)', this).val();
+  // let requestedRecipe = $(':nth-child(4)', this).val();
+  let requestedRecipe = $(this).prev().val();
   let url = `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${requestedRecipe}/information`;
   let ajaxSettings = {
     async: true,
@@ -20,9 +21,8 @@ function recipeInformation (event) {
   };
   $.ajax(url, ajaxSettings)
   .then( recipe => {
-    console.log(recipe);
-    renderRecipeInfo(recipe, $(this).prev());
-    $(this).children('.recipeInfo').hide();
+    renderRecipeInfo(recipe, $(this).parent());
+    $(this).closest('.recipeForm').find('.recipeInfo').hide();
   });
 }
 
@@ -35,16 +35,16 @@ function renderRecipeInfo(data, container) {
     ingredients: ingredientList,
     servings: data.servings,
   }
-  container.html( Mustache.render(template, view) );
-  $('.hideInfoButton').show();
+  container.append( Mustache.render(template, view) );
+  container.parent().find('.hideInfoButton').show();
 }
 
 
 function hideRecipeInformation(e) {
   e.preventDefault();
-  $('ul').hide();
-  $('.hideInfoButton').hide();
-  $('.recipeInfo').show();
+  $(this).parent().prev().find('ul').remove();
+  $(this).hide();
+  $(this).parent().prev().find('button').show();
 }
 
 $('.hideInfoButton').hide();
