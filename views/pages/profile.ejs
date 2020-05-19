@@ -55,6 +55,7 @@
                 </form>
 
                 <form method="post" action="/update-recipe/<%= recipe.recipe_id %>?_method=put">
+                    <input class="update" name="sql_id" value="<%= recipe.sql_id %>">
                     <input class="update" name="recipe_id" value="<%= recipe.recipe_id %>">
                     <input class="update" name="ingredients" value="<%= recipe.ingredients %>">
                     <input class="update" name="instructions" value="<%= recipe.instructions %>">
