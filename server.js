@@ -141,6 +141,7 @@ function addRecipe(request, response) {
 }
 
 function SavedRecipe(data) {
+  this.sql_id = data.id,
   this.recipe_id = data.recipe_id,
   this.img_url = data.img_url,
   this.ingredients = data.ingredients,
