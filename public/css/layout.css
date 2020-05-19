@@ -1,5 +1,14 @@
 @media only screen and (max-width: 1024px) {
-    section h2, p {
+    section h2 {
       text-align: center;
+    }
+
+    p {
+      margin-left: 10px;
+    }
+    section ol {
+      text-indent: 2%;
+      margin-left: 5px;
+      word-wrap: break-word;
     }
   }

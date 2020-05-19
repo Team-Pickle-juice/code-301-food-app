@@ -14,7 +14,6 @@
     a {
         text-decoration: none;
         color: green;
-        margin-right: 1.5rem;
     }
     footer {
         bottom: 0;
@@ -37,6 +36,12 @@
           flex-direction: column;
           border: 1px solid black;
           margin-bottom: 1.5rem;
+          background-color: whitesmoke;
+          box-shadow: 2px 2px 15px black;
+      }
+      section 
+      span {
+          font-weight: bolder;
       }
       /* about section */
       #creators {
@@ -45,6 +50,11 @@
       #creators img {
           width: 18%;
           border-radius: 50% 50%;
+      }
+
+      ul li {
+          list-style-type: square;
+          margin-left: 2.5rem;
       }
 
 
@@ -64,7 +74,7 @@
       }
 
       .navBar a {
-        padding: 14px 16px;
+        padding: 10px;
         margin-left: 100px;
         text-decoration: none;
         font-size: 17px;
@@ -80,7 +90,7 @@
       }
 
       .navBar a:hover {
-          color: green;
+        color: green;
       }
 
       .active {
