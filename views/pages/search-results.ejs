@@ -36,6 +36,7 @@
             
             
             <form class="saveRecipeForm" action="add-recipe" method="POST">
+                <input type="hidden" name="recipeName" value="<%= recipe.recipeName %>">
                 <input type="hidden" name="username" value="<%= user.username %>">
                 <input type="hidden" name="calories" value="<%= user.calories %>">
                 <input type="hidden" name="allergies" value="<%= user.allergies %>">
