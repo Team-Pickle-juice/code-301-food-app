@@ -6,10 +6,9 @@
         max-width: 80%;
         
     }
-
-    #pickleGuy {
-        width: 50%;
-        height: 50%;
+    
+    h1 {
+        /* margin-bottom: 2rem; */
     }
 
     input , button {
@@ -19,10 +18,8 @@
     a {
         text-decoration: none;
         color: green;
-        margin-right: 1.5rem;
     }
     footer {
-        position: absolute;
         bottom: 0;
         width: 100%;
         height: 2.5rem;
@@ -36,6 +33,76 @@
       }
       #about {
         margin-top: 2rem;
+      }
+
+      section {
+          display: flex;
+          flex-direction: column;
+          border: 1px solid black;
+          margin-bottom: 1.5rem;
+          background-color: whitesmoke;
+          box-shadow: 2px 2px 15px black;
+      }
+      section 
+      span {
+          font-weight: bolder;
+      }
+      /* about section */
+      #creators {
+          margin-left: 1.2rem;
+      }
+      #creators img {
+          width: 18%;
+          border-radius: 50% 50%;
+      }
+
+      ul li {
+          list-style-type: square;
+          margin-left: 2.5rem;
+      }
+
+      #registerForm {
+          margin-bottom: 90%;
+      }
+
+
+
+      /* navbar styling */
+      .navBar {
+        overflow: hidden;
+        position: relative;
+        background-image: url(https://images.unsplash.com/photo-1555243896-c709bfa0b564?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80);
+        background-repeat: no-repeat;
+        background-size: 100%;
+      }
+
+      .navBar #navLinks {
+          display: none;
+          margin-left: 50%;
+      }
+
+      .navBar a {
+        padding: 10px;
+        margin-left: 100px;
+        text-decoration: none;
+        font-size: 17px;
+        display: block;
+      }
+
+      .navBar a.icon {
+        color: grey;
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+
+      .navBar a:hover {
+        color: green;
+      }
+
+      .active {
+        color: white; 
       }
     
   }

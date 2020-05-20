@@ -48,8 +48,8 @@
                 <p><%= recipe.ingredients %></p>
                 <h3>Instructions</h3>
                 <p><%= recipe.instructions %></p>
-                <h3>ID</h3>
-                <p><%= recipe.id %></p>
+                <h3>Recipe Id</h3>
+                <p><%= recipe.recipe_id %></p>
                 <form method="post" action="/delete-recipe/<%= recipe.recipe_id %>?_method=delete">
                     <button type="submit">Delete this recipe</button>
                 </form>
