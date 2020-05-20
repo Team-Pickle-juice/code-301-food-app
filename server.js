@@ -84,10 +84,10 @@ function Recipe(data){
 function handleDeleteRecipe(request, response) {
   let SQL = "DELETE FROM meal_plan WHERE recipe_id = $1";
   let VALUES = [request.params.id];
-  console.log('This is Values inside delete', VALUES)
+  // console.log('This is Values inside delete', VALUES)
   client.query(SQL, VALUES)
     .then(results => {
-      console.log(results)
+      // console.log(results)
       response.status(200).redirect('/')
     })
 }
@@ -123,7 +123,7 @@ function addRecipe(request, response) {
     calories: request.body.calories,
     allergies: request.body.allergies,
   };
-  console.log(request.body.username);
+  // console.log(request.body.username);
   recipeInformation(request.body.recipe_id)
     .then(items => items.forEach( item => {
       VALUES.push(item);
@@ -133,7 +133,7 @@ function addRecipe(request, response) {
     .then( data => {
       let recipes = data.rows.map(recipe => new SavedRecipe(recipe));
       response.status(200).render('pages/profile', {profile, recipes} );
-      console.log(recipes)
+      // console.log(recipes)
       }) 
     .catch( error => {
       console.error(error.message);
@@ -144,10 +144,18 @@ function SavedRecipe(data) {
   this.sql_id = data.id,
   this.recipe_id = data.recipe_id,
   this.img_url = data.img_url,
-  this.ingredients = data.ingredients,
+  this.ingredients = cleanIngredients(data.ingredients),
   this.instructions = data.instructions,
   this.price = data.price
 }
+
+function cleanIngredients(obj) {
+  const regex = /({|}|,)/g;
+  obj = obj.replace(regex, '');
+  return obj.split('"');
+}
+
+
 
 function addToSql (SQL, VALUES) {
   return client.query(SQL,VALUES);

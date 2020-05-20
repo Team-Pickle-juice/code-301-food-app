@@ -44,8 +44,14 @@
                 <img src="<%= recipe.img_url %>"/>
                 <h3>Recipe Name</h3>
                 <p><%= recipe.recipe_id %></p>
-                <h3>Ingredients</h3>
-                <p><%= recipe.ingredients %></p>
+
+                <ul>
+                  <li>Ingredients</li>
+                  <% recipe.ingredients.forEach (ingredient => { %>
+                    <li style = "text-transform: capitalize;"><%= ingredient %></li>
+                  <% }) %>
+                </ul>
+
                 <h3>Instructions</h3>
                 <p><%= recipe.instructions %></p>
                 <h3>Recipe Id</h3>
