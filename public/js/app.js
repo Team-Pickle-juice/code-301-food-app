@@ -47,6 +47,26 @@ function hideRecipeInformation(e) {
   $(this).parent().prev().find('button').show();
 }
 
+function hideRecipeInformation(e) {
+  e.preventDefault();
+  $(this).parent().prev().find('ul').remove();
+  $(this).hide();
+  $(this).parent().prev().find('button').show();
+}
+
+// $('.updateRecipe').on('click', showUpdateForm);
+// $('.cancel-update').on('click', hideUpdateForm);
+
+// function showUpdateForm() {
+//   $(this).fadeOut();
+//   $(this).next().fadeIn();
+// }
+
+// function hideUpdateForm() {
+//   $(this).parent().fadeOut();
+//   $('.updateRecipe').show();
+// }
+
 $('.hideInfoButton').hide();
 
 /* Toggle between showing and hiding the navigation menu links when the user clicks on the hamburger menu / bar icon */

@@ -25,7 +25,6 @@
                 </h2>
             </li>
         <form action="/recipe-search" method="GET" id="">
-
             <input type="text" name="searchWord" placeholder="Enter Meal Name" required>
             <input type="number" name="maxCalories" placeholder="Max Calories Per Meal" required min="0">
             <input type="hidden" name="allergy" value="<%= profile.allergies %>">
@@ -43,25 +42,31 @@
             <li>
                 <img src="<%= recipe.img_url %>"/>
                 <h3>Recipe Name</h3>
-                <p><%= recipe.recipe_id %></p>
-                <h3>Ingredients</h3>
-                <p><%= recipe.ingredients %></p>
+                <p><%= recipe.recipe_name %></p>
+                <ul>
+                  <li>Ingredients</li>
+                  <% recipe.ingredients.forEach (ingredient => { %>
+                    <li style = "text-transform: capitalize;"><%= ingredient %></li>
+                  <% }) %>
+                </ul>
                 <h3>Instructions</h3>
                 <p><%= recipe.instructions %></p>
-                <h3>Recipe Id</h3>
-                <p><%= recipe.recipe_id %></p>
                 <form method="post" action="/delete-recipe/<%= recipe.recipe_id %>?_method=delete">
                     <button type="submit">Delete this recipe</button>
                 </form>
-
-                <form method="post" action="/update-recipe/<%= recipe.recipe_id %>?_method=put">
-                    <input class="update" name="sql_id" value="<%= recipe.sql_id %>">
-                    <input class="update" name="recipe_id" value="<%= recipe.recipe_id %>">
-                    <input class="update" name="ingredients" value="<%= recipe.ingredients %>">
-                    <input class="update" name="instructions" value="<%= recipe.instructions %>">
-                    <button type="submit">Update this recipe</button>
+                <button class="updateRecipe">Update Recipe</button>
+            
+                <form class="updateRecipeForm" method="post" action="/update-recipe/<%= recipe.sql_id %>?_method=put">
+                    <input type="hidden" name="username" value="<%= profile.username %>">
+                    <input type="hidden" name="calories" value="<%= profile.calories %>">
+                    <input type="hidden" name="allergies" value="<%= profile.allergies %>">
+                    <input type="" class="update" name="recipe_name" value="<%= recipe.recipe_name %>">
+                    <input type="" class="update" name="ingredients" value="<%= recipe.ingredients %>">
+                    <input type="" class="update" name="instructions" value="<%= recipe.instructions %>">
+                    <button class="updateThisRecipe" type="submit">save Changes</button>
                 </form>
             </li>
+            
         <% }) %>
         </ul>
 

@@ -84,36 +84,49 @@ function Recipe(data){
 function handleDeleteRecipe(request, response) {
   let SQL = "DELETE FROM meal_plan WHERE recipe_id = $1";
   let VALUES = [request.params.id];
-  console.log('This is Values inside delete', VALUES)
+  // console.log('This is Values inside delete', VALUES)
   client.query(SQL, VALUES)
     .then(results => {
-      console.log(results)
+      // console.log(results)
       response.status(200).redirect('/')
     })
 }
 
 //Update Recipe
 function handleUpdateRecipe(request, response) {
-  let SQL = 'UPDATE meal_plan set recipe_id = $1 ingridients = $2, instructions = $3'
+  let profile = {
+    username: request.body.username,
+    calories: request.body.calories,
+    allergies: request.body.allergies,
+  };
+  let SQL = 'UPDATE meal_plan SET recipename = $1, ingredients = $2, instructions = $3 WHERE id = $4';
   let VALUES = [
-    request.body.recipe_id,
-    request.body.recipe.ingredients,
-    request.body.recipe.instructions,
+    request.body.recipe_name,
+    request.body.ingredients,
+    request.body.instructions,
     request.params.id,
   ];
 
   client.query(SQL, VALUES)
-    .then(results => {
-      response.status(200).redirect(`pages/profle/${request.params.id}`)
-    })
+  .then( () => savedMealsHandler(request.body.username) ) // get the results from this to render
+  .then( data => {
+    console.log('data: ', data);
+    let recipes = data.rows.map(recipe => new SavedRecipe(recipe));
+    response.status(200).render('pages/profile', {profile, recipes} );
+    console.log(recipes)
+    }) 
+  .catch( error => {
+    console.error(error.message);
+  });
 }
 
 
 // add recipe function
 function addRecipe(request, response) {
-  let SQL = `INSERT INTO meal_plan (username, recipe_id, img_url, ingredients, instructions, price)
-  VALUES ($1, $2, $3, $4, $5, $6)`;
+  let SQL = `INSERT INTO meal_plan (recipename, username, recipe_id, img_url, ingredients, instructions, price)
+  VALUES ($1, $2, $3, $4, $5, $6, $7)`;
   let VALUES = [
+    request.body.recipeName,
     request.body.username,
     request.body.recipe_id,
     request.body.img_url,
@@ -123,7 +136,7 @@ function addRecipe(request, response) {
     calories: request.body.calories,
     allergies: request.body.allergies,
   };
-  console.log(request.body.username);
+  // console.log(request.body.username);
   recipeInformation(request.body.recipe_id)
     .then(items => items.forEach( item => {
       VALUES.push(item);
@@ -131,9 +144,10 @@ function addRecipe(request, response) {
     .then( () => addToSql(SQL, VALUES) )
     .then( () => savedMealsHandler(request.body.username) ) // get the results from this to render
     .then( data => {
+      console.log('data: ', data);
       let recipes = data.rows.map(recipe => new SavedRecipe(recipe));
       response.status(200).render('pages/profile', {profile, recipes} );
-      console.log(recipes)
+      // console.log(recipes)
       }) 
     .catch( error => {
       console.error(error.message);
@@ -142,12 +156,21 @@ function addRecipe(request, response) {
 
 function SavedRecipe(data) {
   this.sql_id = data.id,
+  this.recipe_name = data.recipename,
   this.recipe_id = data.recipe_id,
   this.img_url = data.img_url,
-  this.ingredients = data.ingredients,
+  this.ingredients = cleanIngredients(data.ingredients),
   this.instructions = data.instructions,
   this.price = data.price
 }
+
+function cleanIngredients(obj) {
+  const regex = /({|}|,)/g;
+  obj = obj.replace(regex, '');
+  return obj.split('"');
+}
+
+
 
 function addToSql (SQL, VALUES) {
   return client.query(SQL,VALUES);

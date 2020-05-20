@@ -13,6 +13,7 @@ DROP TABLE IF EXISTS meal_plan;
 
 CREATE TABLE meal_plan (
     id SERIAL PRIMARY KEY,
+    recipename VARCHAR(255),
     username VARCHAR(255),
     recipe_id VARCHAR(255),
     img_url VARCHAR(255),

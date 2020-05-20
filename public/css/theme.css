@@ -1,3 +1,27 @@
+body {
+    font-family: 'Pangolin', cursive;
+}
+
+main {
+    background-color:whitesmoke;
+}
+
+footer {
+    background-color:whitesmoke;
+}
+
+span {
+    color: black;
+}
+span:nth-child(odd) {
+    color: green;
+}
+span:nth-child(even) {
+    color: green;
+}
+
+
+
 @media only screen and (max-width: 1024px) {
    
     body {
