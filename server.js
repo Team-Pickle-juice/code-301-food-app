@@ -55,7 +55,6 @@ function recipeSearch(request, response) {
     maxCalories: calories,
     excludeIngredients: allergy,
   };
-  // console.log(allergy);
   superagent.get(url)
     .query(queryStringParams)
     .set({
@@ -64,9 +63,7 @@ function recipeSearch(request, response) {
       'useQueryString': true
     })
     .then(data => {
-      // console.log('results are', data.body);
       let recipes = data.body.results.map(recipe => new Recipe(recipe));
-      // console.log(recipes);
       response.status(200).render('pages/search-results', {recipes, allergy:allergy, user});
     });
 }
@@ -84,12 +81,20 @@ function Recipe(data){
 function handleDeleteRecipe(request, response) {
   let SQL = "DELETE FROM meal_plan WHERE recipe_id = $1";
   let VALUES = [request.params.id];
-  // console.log('This is Values inside delete', VALUES)
+  let profile = {
+    username: request.body.username,
+    calories: request.body.calories,
+    allergies: request.body.allergies,
+  };
   client.query(SQL, VALUES)
-    .then(results => {
-      // console.log(results)
-      response.status(200).redirect('/')
-    })
+  .then( () => savedMealsHandler(request.body.username) ) // get the results from this to render
+  .then( data => {
+    let recipes = data.rows.map(recipe => new SavedRecipe(recipe));
+    response.status(200).render('pages/profile', {profile, recipes} );
+    }) 
+  .catch( error => {
+    console.error(error.message);
+  });
 }
 
 //Update Recipe
@@ -110,10 +115,8 @@ function handleUpdateRecipe(request, response) {
   client.query(SQL, VALUES)
   .then( () => savedMealsHandler(request.body.username) ) // get the results from this to render
   .then( data => {
-    console.log('data: ', data);
     let recipes = data.rows.map(recipe => new SavedRecipe(recipe));
     response.status(200).render('pages/profile', {profile, recipes} );
-    console.log(recipes)
     }) 
   .catch( error => {
     console.error(error.message);
@@ -136,7 +139,6 @@ function addRecipe(request, response) {
     calories: request.body.calories,
     allergies: request.body.allergies,
   };
-  // console.log(request.body.username);
   recipeInformation(request.body.recipe_id)
     .then(items => items.forEach( item => {
       VALUES.push(item);
@@ -144,10 +146,8 @@ function addRecipe(request, response) {
     .then( () => addToSql(SQL, VALUES) )
     .then( () => savedMealsHandler(request.body.username) ) // get the results from this to render
     .then( data => {
-      console.log('data: ', data);
       let recipes = data.rows.map(recipe => new SavedRecipe(recipe));
       response.status(200).render('pages/profile', {profile, recipes} );
-      // console.log(recipes)
       }) 
     .catch( error => {
       console.error(error.message);
@@ -190,7 +190,6 @@ function recipeInformation (id) {
         data.body.pricePerServing
       ];
       recipeInfo.unshift(ingredients);
-      // console.log(recipeInfo);
       return recipeInfo;
     });
 }
@@ -210,25 +209,26 @@ function handleHomepage(request, response ) {
 function handleLoginPage(request, response ) {
   let SQL = 'SELECT * FROM profiles WHERE username = $1';
   let VALUES = [request.body.username];
-  let recipes = []; // for the future, add in saved recipes
+  let profile;
   client.query(SQL, VALUES)
     .then( results => {
+      profile = results.rows[0];
       if (results.rowCount === 0) {
-        response.status(200).render('pages/nouser');
-      } else {
-        // console.log(results.rows[0]);
-        response.status(200).render('pages/profile', {profile:results.rows[0], result:false, recipes});
+        response.status(200).render('pages/nouser')
       }
     })
+    .then( () => savedMealsHandler(request.body.username) ) 
+    .then( data => {
+      let recipes = data.rows.map(recipe => new SavedRecipe(recipe));
+      response.status(200).render('pages/profile', {profile:profile, recipes} );
+    }) 
     .catch(error => {
       throw new Error(error.message);
     });
-}
-
+  }
+  
 // delete by username not id
 function handleDelete( request, response) {
-  // response.status(200).redirect('/');
-  // console.log(request.params);
   deleteRecipes(request.params.username)
     .then( () => deleteUser(request.params.username))
     .then( response.status(200).redirect('/') );
@@ -252,8 +252,6 @@ function registerUser(request, response) {
     INSERT INTO profiles (username, calories, allergies) 
     VALUES ($1, $2, $3)`;
   let allergies = request.body.allergies;
-  // console.log(typeof allergies);
-
   if(typeof allergies === 'object'){
     allergies = allergies.join(', ');
   }
@@ -275,7 +273,6 @@ function loadRegisterPage(request,response) {
 
 // 404 Error
 app.use('*', (request, response) => {
-  // console.log(request);
   response.status(404).send(`Can't find ${request.Url.path}`);
 });
 
