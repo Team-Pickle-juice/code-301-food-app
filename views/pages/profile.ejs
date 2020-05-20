@@ -10,22 +10,22 @@
     
     <%- include('../partials/header') %>
     
-    <form action="/delete/<%= profile.username %>?_method=delete" method="POST" id="">
-        <button type="submit">Delete Profile</button>
-    </form>
-
-    <main>
+    
+    <main id="profileMain">
         <h1><%= profile.username %>'s Profile Information</h1>
         <ul>
             <li class="card">
                 
                 <h2>
-                   Daily Calories: <%= profile.calories %>
+                    Daily Calories: <%= profile.calories %>
                 </h2>
                 <h2>
-                   <%= profile.username %>'s Allergies: <%= profile.allergies %>
+                    <%= profile.username %>'s Allergies: <%= profile.allergies %>
                 </h2>
             </li>
+            <form action="/delete/<%= profile.username %>?_method=delete" method="POST" id="">
+                <button id="deleteButt" type="submit">Delete Profile</button>
+            </form>
         <form action="/recipe-search" method="GET" id="">
             <input type="text" name="searchWord" placeholder="Enter Meal Name" required>
             <input type="number" name="maxCalories" placeholder="Max Calories Per Meal" required min="0">
@@ -37,9 +37,9 @@
 
         
         </ul>
-        <ul>
+        <ul id="savedRecipesUl">
           <% recipes.forEach (recipe => { %>
-            <li>
+            <li id="profileRecipes">
                 <img src="<%= recipe.img_url %>"/>
                 <h3>Recipe Name</h3>
                 <p><%= recipe.recipe_name %></p>
@@ -79,7 +79,7 @@
                     <input type="hidden" name="username" value="<%= profile.username %>">
                     <input type="hidden" name="calories" value="<%= profile.calories %>">
                     <input type="hidden" name="allergies" value="<%= profile.allergies %>">
-                    <button type="submit">Delete this recipe</button>
+                    <button id="deleteRecipe" type="submit">Delete this recipe</button>
                 </form>
             </li>
             
