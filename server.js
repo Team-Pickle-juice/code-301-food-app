@@ -248,6 +248,11 @@ function deleteRecipes(username) {
 }
 
 function checkExistingUser(request, response) {
+  let profile = {
+    username: request.body.username,
+    calories: request.body.calories,
+    allergies: request.body.allergies,
+  };
   let SQL = 'SELECT * FROM profiles WHERE username = $1';
   let VALUES = [request.body.username];
   return client.query(SQL, VALUES)
@@ -259,8 +264,10 @@ function checkExistingUser(request, response) {
       registerUser(request)
     }
   })
-  .then(results => {
-    response.status(200).redirect('/');
+  .then( () => savedMealsHandler(request.body.username) ) 
+  .then( data => {
+  let recipes = data.rows.map(recipe => new SavedRecipe(recipe));
+    response.status(200).render('pages/profile', {profile:profile, recipes});
   });
 }
 
