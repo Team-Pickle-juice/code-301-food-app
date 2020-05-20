@@ -33,6 +33,7 @@ app.post('/add-recipe', addRecipe);
 app.get('/saved-meals', savedMealsHandler);
 app.delete('/delete-recipe/:id', handleDeleteRecipe);
 app.put('/update-recipe/:id', handleUpdateRecipe);
+app.post('/checkUser', checkExistingUser);
 
 // recipe API function
 function recipeSearch(request, response) {
@@ -244,6 +245,19 @@ function deleteRecipes(username) {
   let SQL = 'DELETE FROM meal_plan WHERE username = $1';
   let VALUES = [username];
   return client.query(SQL, VALUES);
+}
+
+function checkExistingUser(request, response) {
+  let SQL = 'SELECT * FROM profiles WHERE username = $1';
+  let VALUES = [request.body.username];
+  return client.query(SQL, VALUES)
+  .then(results => {
+    if (results.rows !==0) {
+      response.status(200).render('pages/alreadyexists');
+    } else {
+      registerUser(request)
+    }
+  })
 }
 
 // register user
