@@ -1,3 +1,10 @@
+ header, footer, main{
+    /* border: 2px solid black; */
+}
+
+
+
+
 @media only screen and (max-width: 1024px) {
     body {
         display: flex;
