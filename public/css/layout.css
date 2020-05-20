@@ -54,4 +54,8 @@ footer{
       margin-left: 5px;
       word-wrap: break-word;
     }
+
+    section {
+      width: 100%;
+    }
   }

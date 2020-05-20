@@ -79,6 +79,11 @@ p {
         background-size: 100%;
         position: unset;
       }
+      #foodPic {
+          box-sizing: border-box;
+          background-repeat:no-repeat;
+          background-size: contain;
+      }
       #about {
         margin-top: 2rem;
       }

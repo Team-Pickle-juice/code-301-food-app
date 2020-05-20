@@ -19,6 +19,9 @@ span:nth-child(odd) {
 span:nth-child(even) {
     color: green;
 }
+#foodPic {
+    width: 100%;
+}
 
 
 
