@@ -252,12 +252,16 @@ function checkExistingUser(request, response) {
   let VALUES = [request.body.username];
   return client.query(SQL, VALUES)
   .then(results => {
-    if (results.rows !==0) {
-      response.status(200).render('pages/alreadyexists');
+    console.log(results)
+    if (results.rowCount !==0) {
+      response.status(200).render('pages/alreadyexists')
     } else {
       registerUser(request)
     }
   })
+  .then(results => {
+    response.status(200).redirect('/');
+  });
 }
 
 // register user
@@ -275,10 +279,8 @@ function registerUser(request, response) {
     request.body.calories,
     allergies
   ];
-  client.query(SQL, VALUES)
-    .then(results => {
-      response.status(200).redirect('/');
-    });
+  return client.query(SQL, VALUES)
+    
 }
 
 function loadRegisterPage(request,response) {

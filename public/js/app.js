@@ -39,7 +39,7 @@ function renderRecipeInfo(data, container) {
   container.parent().find('.hideInfoButton').show();
 }
 
-
+//View Recipe Information Section
 function hideRecipeInformation(e) {
   e.preventDefault();
   $(this).parent().prev().find('ul').remove();
@@ -54,6 +54,21 @@ function hideRecipeInformation(e) {
   $(this).parent().prev().find('button').show();
 }
 
+//Delete Profile Section
+$('.deleteProfile').on('click', confirmDelete);
+$('.cancel-delete').on('click', cancelDelete);
+
+function confirmDelete(){
+  $(this).hide();
+  $(this).next().show();
+}
+
+function cancelDelete() {
+  $('.deleteProfile').show();
+  $(this).parent().hide();
+}
+
+// Update Recipe Section
 $('.showDetails').on('click', showDetails);
 $('.updateRecipe').on('click', showUpdateForm);
 $('.cancel-update').on('click', hideUpdateForm);
@@ -73,7 +88,7 @@ function hideUpdateForm() {
   $(this).parent().hide();
 }
 
-$('.aside').hide();
+$('.deleteProfileForm').hide();
 $('.updateRecipeForm').hide();
 $('.hideInfoButton').hide();
 
