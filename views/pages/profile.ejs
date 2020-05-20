@@ -10,13 +10,15 @@
     
     <%- include('../partials/header') %>
     
+    <form action="/delete/<%= profile.username %>?_method=delete" method="POST" id="">
+        <button type="submit">Delete Profile</button>
+    </form>
+
     <main>
-        <h1>List of Profiles</h1>
+        <h1><%= profile.username %>'s Profile Information</h1>
         <ul>
             <li class="card">
-                <h2>
-                    <%= profile.username %>'s Profile Information
-                </h2>
+                
                 <h2>
                    Daily Calories: <%= profile.calories %>
                 </h2>
@@ -33,9 +35,7 @@
             <button type="submit">Search Recipes</button>
         </form>
 
-        <form action="/delete/<%= profile.username %>?_method=delete" method="POST" id="">
-            <button type="submit">Delete Profile</button>
-        </form>
+        
         </ul>
         <ul>
           <% recipes.forEach (recipe => { %>
@@ -43,27 +43,43 @@
                 <img src="<%= recipe.img_url %>"/>
                 <h3>Recipe Name</h3>
                 <p><%= recipe.recipe_name %></p>
+                <h3>Ingredients</h3>
                 <ul>
-                  <li>Ingredients</li>
                   <% recipe.ingredients.forEach (ingredient => { %>
                     <li style = "text-transform: capitalize;"><%= ingredient %></li>
                   <% }) %>
                 </ul>
                 <h3>Instructions</h3>
                 <p><%= recipe.instructions %></p>
-                <form method="post" action="/delete-recipe/<%= recipe.recipe_id %>?_method=delete">
-                    <button type="submit">Delete this recipe</button>
-                </form>
+                
                 <button class="updateRecipe">Update Recipe</button>
-            
+                
                 <form class="updateRecipeForm" method="post" action="/update-recipe/<%= recipe.sql_id %>?_method=put">
                     <input type="hidden" name="username" value="<%= profile.username %>">
                     <input type="hidden" name="calories" value="<%= profile.calories %>">
                     <input type="hidden" name="allergies" value="<%= profile.allergies %>">
-                    <input type="" class="update" name="recipe_name" value="<%= recipe.recipe_name %>">
-                    <input type="" class="update" name="ingredients" value="<%= recipe.ingredients %>">
-                    <input type="" class="update" name="instructions" value="<%= recipe.instructions %>">
-                    <button class="updateThisRecipe" type="submit">save Changes</button>
+                    
+                    <label>Recipe Name: 
+                        <input class="update" name="recipe_name" value="<%= recipe.recipe_name %>">
+                    </label>
+                    
+                    <label>Ingredients: 
+                        <input class="update" name="ingredients" value="<%= recipe.ingredients %>">
+                    </label>
+                    
+                    <label>Instructions: 
+                        <input class="update" name="instructions" value="<%= recipe.instructions %>">
+                    </label>
+                    
+                    <button type="submit">Save Changes</button>
+                    <button type="button" class="cancel-update">Cancel</button>
+                </form>
+
+                <form method="post" action="/delete-recipe/<%= recipe.recipe_id %>?_method=delete">
+                    <input type="hidden" name="username" value="<%= profile.username %>">
+                    <input type="hidden" name="calories" value="<%= profile.calories %>">
+                    <input type="hidden" name="allergies" value="<%= profile.allergies %>">
+                    <button type="submit">Delete this recipe</button>
                 </form>
             </li>
             
