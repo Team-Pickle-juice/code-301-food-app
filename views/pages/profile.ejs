@@ -43,19 +43,19 @@
                 <img src="<%= recipe.img_url %>"/>
                 <h3>Recipe Name</h3>
                 <p><%= recipe.recipe_name %></p>
-                <h3>Ingredients</h3>
-                <p><%= recipe.ingredients %></p>
+                <ul>
+                  <li>Ingredients</li>
+                  <% recipe.ingredients.forEach (ingredient => { %>
+                    <li style = "text-transform: capitalize;"><%= ingredient %></li>
+                  <% }) %>
+                </ul>
                 <h3>Instructions</h3>
                 <p><%= recipe.instructions %></p>
                 <form method="post" action="/delete-recipe/<%= recipe.recipe_id %>?_method=delete">
                     <button type="submit">Delete this recipe</button>
                 </form>
+                <button class="updateRecipe">Update Recipe</button>
             
-            
-                <button class="updateRecipe"
-                >Update Recipe</button>
-            
-    
                 <form class="updateRecipeForm" method="post" action="/update-recipe/<%= recipe.sql_id %>?_method=put">
                     <input type="hidden" name="username" value="<%= profile.username %>">
                     <input type="hidden" name="calories" value="<%= profile.calories %>">
