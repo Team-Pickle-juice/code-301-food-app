@@ -12,6 +12,12 @@
     
     
     <main id="profileMain">
+    <button class="deleteProfile" type="submit">Delete Profile</button>
+    <form class="deleteProfileForm" action="/delete/<%= profile.username %>?_method=delete" method="POST" id="">
+        <button type="submit">Confirm Delete</button>
+        <button class="cancel-delete" type="submit">Cancel</button>
+    </form>
+
         <h1><%= profile.username %>'s Profile Information</h1>
         <ul>
             <li class="card">
