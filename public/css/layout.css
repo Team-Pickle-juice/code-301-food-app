@@ -8,7 +8,7 @@ body {
 h1 {
   text-align: center;
   font-size: 5rem;
-  margin-top: 36px;
+  margin: 36px 0;
 }
 h2{
   text-align: center;
@@ -35,7 +35,7 @@ footer{
 
  section {
    margin: auto;
-   width: 85%;
+   /* width: 85%; */
    margin-bottom: 3rem;
  }
 
@@ -54,6 +54,13 @@ footer{
       max-height: 200px;
       line-height: 50%;
     }
+
+    .pSearch {
+      margin-left: 10px;
+      max-height: 200px;
+      overflow: unset;
+    }
+
     section ol {
       text-indent: 2%;
       margin-left: 5px;

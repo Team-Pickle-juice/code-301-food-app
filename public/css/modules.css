@@ -4,11 +4,9 @@
 
 header {
     background-color: whitesmoke;
-    position: fixed;
     width: 100%;
 }
 footer {
-    position: fixed;
     bottom: 0;
     width: 100%;
     min-height: 30px;
@@ -35,9 +33,9 @@ a {
     color: green;
 }
 
-#registerAnchor {
+/* #registerAnchor {
     margin-left: 35%;
-}
+} */
 p {
     line-height: 2rem;
 }
@@ -54,9 +52,10 @@ p {
     justify-content: center;
 } */
 
-#loginForm {
+/* #loginForm {
     margin-left: 15rem;
-}
+} */
+
 #registerForm {
     width: 50%;
     margin-top: 5%;
@@ -70,8 +69,22 @@ section div a {
     margin-left: 3rem;
 }
 
+#loginDiv * {
+  /* display: flex;
+  flex-direction: column; */
+  display: block;
+  width: 40%;
+  margin: auto;
+  margin-bottom: 7px;
+}
 
+#loginDiv a {
+  text-align: center;
+}
 
+#loginDiv {
+  margin-top: 15px;
+}
 
 
 @media only screen and (max-width: 1024px) {
@@ -84,7 +97,6 @@ section div a {
         max-width: 100%;
         
     }
-
     input , button {
         margin: 0 0 .5rem 0;
         font-family: 'Pangolin', cursive;
@@ -147,6 +159,7 @@ section div a {
       ul li {
           list-style-type: none;
           margin-left: 2.5rem;
+          margin-right: 2.5rem;
       }
 
       #registerForm {

@@ -23,7 +23,33 @@ span:nth-child(even) {
     width: 100%;
 }
 
+.recipeImage {
+  margin: 1rem;
+}
 
+.recipeI {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.recipeName {
+  /* margin-bottom: 1rem; */
+  font-size: larger;
+  text-decoration: underline;
+}
+
+.recipeName, .recipeI {
+  font-weight: bold;
+}
+
+input, button{
+    border-color: green;
+    border-radius: 5px 5px;
+    background-color: whitesmoke;
+}
+input {
+    text-indent: .5rem;
+}
 
 @media only screen and (max-width: 1024px) {
    
@@ -36,14 +62,6 @@ span:nth-child(even) {
     }
     h2 {
         font-size: 1.5rem;
-    }
-    input, button{
-        border-color: green;
-        border-radius: 5px 5px;
-        background-color: whitesmoke;
-    }
-    input {
-        text-indent: .5rem;
     }
 
     span {
