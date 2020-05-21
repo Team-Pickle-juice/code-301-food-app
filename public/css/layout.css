@@ -39,6 +39,8 @@ footer{
    margin-bottom: 3rem;
  }
 
+ 
+
 
 
 @media only screen and (max-width: 1024px) {
@@ -48,10 +50,24 @@ footer{
 
     p {
       margin-left: 10px;
+      overflow: scroll;
+      max-height: 200px;
+      line-height: 50%;
     }
     section ol {
       text-indent: 2%;
       margin-left: 5px;
       word-wrap: break-word;
+    }
+
+    section {
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 80%;
+    }
+    img {
+      width: 95%;
     }
   }

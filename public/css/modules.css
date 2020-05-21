@@ -34,22 +34,54 @@ a {
     text-decoration: none;
     color: green;
 }
+
+#registerAnchor {
+    margin-left: 35%;
+}
 p {
     line-height: 2rem;
+}
+ ol li ul li {
+     list-style-type: disc;
+     margin-left: 3rem;
+ }
+
+
+
+/* #profileMain, #searchSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+} */
+
+#loginForm {
+    margin-left: 15rem;
+}
+#registerForm {
+    width: 50%;
+    margin-top: 5%;
+    /* margin-left: 35%; */
+}
+
+input {
+    font-size: 1.5rem;
+}
+section div a {
+    margin-left: 3rem;
 }
 
 
 
 
 
-
-
 @media only screen and (max-width: 1024px) {
-   
+   h1 {
+       font-size: 3rem;
+   }
     main {
         margin: 2rem auto;
         padding-bottom: 2.5rem;
-        max-width: 80%;
+        max-width: 100%;
         
     }
 
@@ -66,6 +98,9 @@ p {
         width: 100%;
         height: 2.5rem;
       }
+      footer img {
+          width: 5%;
+      }
       p {
           margin-top: 1rem;
           margin-bottom: 1rem;
@@ -79,6 +114,11 @@ p {
         background-size: 100%;
         position: unset;
       }
+      #foodPic {
+          box-sizing: border-box;
+          background-repeat:no-repeat;
+          background-size: contain;
+      }
       #about {
         margin-top: 2rem;
       }
@@ -86,7 +126,7 @@ p {
       section {
           display: flex;
           flex-direction: column;
-          border: 1px solid black;
+          /* border: 1px solid black; */
           margin-bottom: 1.5rem;
           background-color: whitesmoke;
           box-shadow: 2px 2px 15px black;
@@ -105,7 +145,7 @@ p {
       }
 
       ul li {
-          list-style-type: square;
+          list-style-type: none;
           margin-left: 2.5rem;
       }
 
@@ -151,5 +191,9 @@ p {
       .active {
         color: white; 
       }
+
+      #registerAnchor {
+        margin-left: 25%;
+    }
     
   }
