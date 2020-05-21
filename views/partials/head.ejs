@@ -6,13 +6,17 @@
 <script src="https://kit.fontawesome.com/f4021c5793.js" crossorigin="anonymous"></script>
 <script type="x-tmpl-mustache" id="recipeInfo-template">
   <ul>
-    <li>Ingredients:</li>
+    <li class="recipeI">Ingredients:</li>
     {{#ingredients}}
     <li style = "text-transform: capitalize;">{{.}}</li>
     {{/ingredients}}
-    <li>Instructions: {{instructions}}</li>
-    <li>Price per serving: {{price}}</li>
-    <li>Serving size: {{servings}}</li>
+    <li class="recipeI">Instructions:</li>
+    <li>{{instructions}}</li>
+    <li class="recipeI">Price per serving:</li>
+    <li>{{price}}</li>
+    <li class="recipeI">Serving size:</li>
+    <li>{{servings}}</li>
   </ul>
+  <section></section>
 </script>
 

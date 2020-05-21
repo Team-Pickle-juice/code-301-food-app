@@ -13,15 +13,12 @@
         <span>C</span>h<span>o</span>o<span>s</span>e <span>F</span>r<span>o</span>m<span> S</span>o<span>m</span>e<span> R</span>e<span>c</span>i<span>p</span>e<span>s</span>
     </h1>
     <% recipes.forEach (recipe => { %>
-        <section id="searchSection">
+        <section class="searchSection">
             <img src="<%= recipe.image %>"/>
-            <h3>Recipe Name</h3>
-            <p><%= recipe.recipeName %></p>
-            <h3>Calories</h3>
-            <p><%= recipe.calories %></p>
-            <section class="<%= recipe.recipe_id %>">
-
-            </section>
+            <h3 class="recipeName">Recipe Name</h3>
+            <p class="pSearch"><%= recipe.recipeName %></p>
+            <h3 class="recipeName">Calories</h3>
+            <p class="pSearch"><%= recipe.calories %></p>
 
             <form class="recipeForm">
                 <input type="hidden" id="allergy" value="<%= allergy %>"" name="allergies">
@@ -35,8 +32,6 @@
                 <button class="hideInfoButton">Hide Recipe Information</button>
             </form>
 
-            
-            
             <form class="saveRecipeForm" action="add-recipe" method="POST">
                 <input type="hidden" name="recipeName" value="<%= recipe.recipeName %>">
                 <input type="hidden" name="username" value="<%= user.username %>">
@@ -46,6 +41,9 @@
                 <input type="hidden" name="img_url" value="<%= recipe.image %>">
                 <button class="saveRecipe">Add To My Meal Plan</button>
             </form>
+            <section>
+
+            </section>
         </section>
     <% }) %>
     <%- include('../partials/footer') %>
