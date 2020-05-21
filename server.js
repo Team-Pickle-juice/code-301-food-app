@@ -33,6 +33,7 @@ app.post('/add-recipe', addRecipe);
 app.get('/saved-meals', savedMealsHandler);
 app.delete('/delete-recipe/:id', handleDeleteRecipe);
 app.put('/update-recipe/:id', handleUpdateRecipe);
+app.post('/checkUser', checkExistingUser);
 
 // recipe API function
 function recipeSearch(request, response) {
@@ -246,6 +247,30 @@ function deleteRecipes(username) {
   return client.query(SQL, VALUES);
 }
 
+function checkExistingUser(request, response) {
+  let profile = {
+    username: request.body.username,
+    calories: request.body.calories,
+    allergies: request.body.allergies,
+  };
+  let SQL = 'SELECT * FROM profiles WHERE username = $1';
+  let VALUES = [request.body.username];
+  return client.query(SQL, VALUES)
+  .then(results => {
+    console.log(results)
+    if (results.rowCount !==0) {
+      response.status(200).render('pages/alreadyexists')
+    } else {
+      registerUser(request)
+    }
+  })
+  .then( () => savedMealsHandler(request.body.username) ) 
+  .then( data => {
+  let recipes = data.rows.map(recipe => new SavedRecipe(recipe));
+    response.status(200).render('pages/profile', {profile:profile, recipes});
+  });
+}
+
 // register user
 function registerUser(request, response) {
   let SQL = `
@@ -261,10 +286,8 @@ function registerUser(request, response) {
     request.body.calories,
     allergies
   ];
-  client.query(SQL, VALUES)
-    .then(results => {
-      response.status(200).redirect('/');
-    });
+  return client.query(SQL, VALUES)
+    
 }
 
 function loadRegisterPage(request,response) {
