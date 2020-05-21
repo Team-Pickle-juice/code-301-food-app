@@ -1,7 +1,15 @@
+ header, footer, main{
+    /* border: 2px solid black; */
+}
+
+
+
+
 @media only screen and (max-width: 1024px) {
     body {
-        box-sizing: border-box;
-        text-align: center;
+        display: flex;
         min-height: 100vh;
-    }
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: rgb(249, 250, 250);
   }

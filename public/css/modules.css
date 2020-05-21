@@ -1,15 +1,88 @@
+.navBar i {
+    display: none;
+}
+
+header {
+    background-color: whitesmoke;
+    position: fixed;
+    width: 100%;
+}
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    min-height: 30px;
+}
+
+main section {
+    font-size: 1.5rem;
+}
+
+
+#creators img {
+    width: 10%;
+    border-radius: 50% 50%;
+    transition: width 1s, height 1s, transform 1s;
+}
+
+#creators img:hover {
+    width: 11%;
+    transform: rotate(360deg);
+}
+
+a {
+    text-decoration: none;
+    color: green;
+}
+
+#registerAnchor {
+    margin-left: 35%;
+}
+p {
+    line-height: 2rem;
+}
+ ol li ul li {
+     list-style-type: disc;
+     margin-left: 3rem;
+ }
+
+
+
+/* #profileMain, #searchSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+} */
+
+#loginForm {
+    margin-left: 15rem;
+}
+#registerForm {
+    width: 50%;
+    margin-top: 5%;
+    /* margin-left: 35%; */
+}
+
+input {
+    font-size: 1.5rem;
+}
+section div a {
+    margin-left: 3rem;
+}
+
+
+
+
+
 @media only screen and (max-width: 1024px) {
-   
+   h1 {
+       font-size: 3rem;
+   }
     main {
         margin: 2rem auto;
         padding-bottom: 2.5rem;
-        max-width: 80%;
+        max-width: 100%;
         
-    }
-
-    #pickleGuy {
-        width: 50%;
-        height: 50%;
     }
 
     input , button {
@@ -19,13 +92,14 @@
     a {
         text-decoration: none;
         color: green;
-        margin-right: 1.5rem;
     }
     footer {
-        position: absolute;
         bottom: 0;
         width: 100%;
         height: 2.5rem;
+      }
+      footer img {
+          width: 5%;
       }
       p {
           margin-top: 1rem;
@@ -33,9 +107,93 @@
       }
       header {
         margin-top: 2.5rem;
+        border: 1px solid black;
+        min-height: 200px;
+        background-image: url(https://images.unsplash.com/photo-1555243896-c709bfa0b564?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80);
+        background-repeat: no-repeat;
+        background-size: 100%;
+        position: unset;
+      }
+      #foodPic {
+          box-sizing: border-box;
+          background-repeat:no-repeat;
+          background-size: contain;
       }
       #about {
         margin-top: 2rem;
       }
+
+      section {
+          display: flex;
+          flex-direction: column;
+          /* border: 1px solid black; */
+          margin-bottom: 1.5rem;
+          background-color: whitesmoke;
+          box-shadow: 2px 2px 15px black;
+      }
+      section 
+      span {
+          font-weight: bolder;
+      }
+      /* about section */
+      #creators {
+          margin-left: 1.2rem;
+      }
+      #creators img {
+          width: 18%;
+          border-radius: 50% 50%;
+      }
+
+      ul li {
+          list-style-type: none;
+          margin-left: 2.5rem;
+      }
+
+      #registerForm {
+          margin-bottom: 90%;
+      }
+
+      /* navbar styling */
+      .navBar i {
+        display: unset;
+    }
+      .navBar {
+        overflow: hidden;
+        position: relative;
+        
+      }
+
+      .navBar #navLinks {
+          display: none;
+          margin-top: 2rem;
+      }
+
+      .navBar a {
+        padding: 10px;
+        margin-left: 100px;
+        text-decoration: none;
+        font-size: 17px;
+        display: block;
+      }
+
+      .navBar a.icon {
+        color: grey;
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+
+      .navBar a:hover {
+        color: green;
+      }
+
+      .active {
+        color: white; 
+      }
+
+      #registerAnchor {
+        margin-left: 25%;
+    }
     
   }

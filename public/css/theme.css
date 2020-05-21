@@ -1,3 +1,30 @@
+body {
+    font-family: 'Pangolin', cursive;
+}
+
+main {
+    background-color:whitesmoke;
+}
+
+footer {
+    background-color:whitesmoke;
+}
+
+span {
+    color: black;
+}
+span:nth-child(odd) {
+    color: green;
+}
+span:nth-child(even) {
+    color: green;
+}
+#foodPic {
+    width: 100%;
+}
+
+
+
 @media only screen and (max-width: 1024px) {
    
     body {
@@ -18,5 +45,16 @@
     input {
         text-indent: .5rem;
     }
+
+    span {
+        color: black;
+    }
+    span:nth-child(odd) {
+        color: green;
+    }
+    span:nth-child(even) {
+        color: green;
+    }
+   
    
   }

@@ -9,9 +9,11 @@
 
     <%- include('../partials/header') %>
     
-    <h1>Choose from Your Recipe List</h1>
+    <h1>
+        <span>C</span>h<span>o</span>o<span>s</span>e <span>F</span>r<span>o</span>m<span> S</span>o<span>m</span>e<span> R</span>e<span>c</span>i<span>p</span>e<span>s</span>
+    </h1>
     <% recipes.forEach (recipe => { %>
-        <section>
+        <section id="searchSection">
             <img src="<%= recipe.image %>"/>
             <h3>Recipe Name</h3>
             <p><%= recipe.recipeName %></p>
@@ -36,6 +38,7 @@
             
             
             <form class="saveRecipeForm" action="add-recipe" method="POST">
+                <input type="hidden" name="recipeName" value="<%= recipe.recipeName %>">
                 <input type="hidden" name="username" value="<%= user.username %>">
                 <input type="hidden" name="calories" value="<%= user.calories %>">
                 <input type="hidden" name="allergies" value="<%= user.allergies %>">

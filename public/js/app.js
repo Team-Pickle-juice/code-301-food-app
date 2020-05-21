@@ -39,6 +39,13 @@ function renderRecipeInfo(data, container) {
   container.parent().find('.hideInfoButton').show();
 }
 
+//View Recipe Information Section
+function hideRecipeInformation(e) {
+  e.preventDefault();
+  $(this).parent().prev().find('ul').remove();
+  $(this).hide();
+  $(this).parent().prev().find('button').show();
+}
 
 function hideRecipeInformation(e) {
   e.preventDefault();
@@ -47,4 +54,50 @@ function hideRecipeInformation(e) {
   $(this).parent().prev().find('button').show();
 }
 
+//Delete Profile Section
+$('.deleteProfile').on('click', confirmDelete);
+$('.cancel-delete').on('click', cancelDelete);
+
+function confirmDelete(){
+  $(this).hide();
+  $(this).next().show();
+}
+
+function cancelDelete() {
+  $('.deleteProfile').show();
+  $(this).parent().hide();
+}
+
+// Update Recipe Section
+$('.showDetails').on('click', showDetails);
+$('.updateRecipe').on('click', showUpdateForm);
+$('.cancel-update').on('click', hideUpdateForm);
+
+function showDetails() {
+  $(this).hide();
+  $(this).next().show();
+}
+
+function showUpdateForm() {
+  $(this).hide();
+  $(this).next().show();
+}
+
+function hideUpdateForm() {
+  $('.updateRecipe').show();
+  $(this).parent().hide();
+}
+
+$('.deleteProfileForm').hide();
+$('.updateRecipeForm').hide();
 $('.hideInfoButton').hide();
+
+/* Toggle between showing and hiding the navigation menu links when the user clicks on the hamburger menu / bar icon */
+function navBarFunc() {
+  var x = document.getElementById("navLinks");
+  if (x.style.display === "block") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }
+}
