@@ -12,26 +12,25 @@
     
     
     <main id="profileMain">
-    <button class="deleteProfile" type="submit">Delete Profile</button>
-    <form class="deleteProfileForm" action="/delete/<%= profile.username %>?_method=delete" method="POST" id="">
-        <button type="submit">Confirm Delete</button>
-        <button class="cancel-delete" type="submit">Cancel</button>
-    </form>
+      
+      <h1><%= profile.username %>'s Profile Information</h1>
+      <ul>
+        <li class="card">
+          
+          <h2>
+            Daily Calories: <%= profile.calories %>
+          </h2>
+          <h2>
+            <%= profile.username %>'s Allergies: <%= profile.allergies %>
+          </h2>
+        </li>
+        
+        <button class="deleteProfile" type="submit">Delete Profile</button>
+        <form class="deleteProfileForm" action="/delete/<%= profile.username %>?_method=delete" method="POST" id="">
+            <button type="submit">Confirm Delete</button>
+            <button class="cancel-delete" type="submit">Cancel</button>
+        </form>
 
-        <h1><%= profile.username %>'s Profile Information</h1>
-        <ul>
-            <li class="card">
-                
-                <h2>
-                    Daily Calories: <%= profile.calories %>
-                </h2>
-                <h2>
-                    <%= profile.username %>'s Allergies: <%= profile.allergies %>
-                </h2>
-            </li>
-            <form action="/delete/<%= profile.username %>?_method=delete" method="POST" id="">
-                <button id="deleteButt" type="submit">Delete Profile</button>
-            </form>
             <form action="/recipe-search" method="GET" id="">
                 <input type="text" name="searchWord" placeholder="Enter Meal Name" required>
                 <input type="number" name="maxCalories" placeholder="Max Calories Per Meal" required min="0">
