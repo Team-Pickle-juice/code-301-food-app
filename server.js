@@ -257,7 +257,7 @@ function checkExistingUser(request, response) {
   let VALUES = [request.body.username];
   return client.query(SQL, VALUES)
   .then(results => {
-    console.log(results)
+    // console.log(results)
     if (results.rowCount !==0) {
       response.status(200).render('pages/alreadyexists')
     } else {
